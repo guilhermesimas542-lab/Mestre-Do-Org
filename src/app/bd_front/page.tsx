@@ -114,6 +114,7 @@ export default function BdFrontPage() {
     if (!inner || !outer) return;
 
     function applyScale() {
+      if (!inner || !outer) return;
       inner.style.transform = "none";
       const naturalHeight = inner.scrollHeight;
       const scale = window.innerWidth / 390;
