@@ -97,6 +97,13 @@ export default function UpsellPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const s = document.createElement("script");
+    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/6882a91ad2ad5bff8e827827/v4/player.js";
+    s.async = true;
+    document.head.appendChild(s);
+  }, []);
+
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
@@ -135,6 +142,15 @@ export default function UpsellPage() {
               <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">O CONTROLE</span>
               {" "}QUE VOCÊ SEMPRE QUIS NA CAMA
             </h1>
+          </div>
+
+          {/* ═══ VSL ═══ */}
+          <div className="mt-6 w-full">
+            {/* @ts-ignore */}
+            <vturb-smartplayer
+              id="vid-6882a91ad2ad5bff8e827827"
+              style={{ display: "block", margin: "0 auto", width: "100%" }}
+            />
           </div>
 
           {/* CTAs */}
