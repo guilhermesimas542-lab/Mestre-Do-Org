@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
 const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ85K0";
-const DECLINE_URL  = "/downsell";
+const DECLINE_URL  = "https://www.institutonexxa.com/downsell";
 
 const IMG = {
   heroBg:      "https://www.figma.com/api/mcp/asset/e178503f-1990-4944-807b-2e8468776f30",
