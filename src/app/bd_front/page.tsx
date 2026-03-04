@@ -171,23 +171,26 @@ export default function BdFrontPage() {
             </div>
           </div>
 
-          {/* Logomarca Mestre do Orgasmo — preço fica sempre abaixo */}
-          <div className="mt-8 w-full flex flex-col items-center gap-4">
-            <img src={IMG.heroBadge} alt="Mestre do Orgasmo" className="size-[87px] object-cover shrink-0" />
-            <h1 className="text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
-              O segredo para{" "}
-              <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
-                dominar os múltiplos orgasmos
-              </span>
-              , agora com um SUPER DESCONTO{" "}
-              <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
-                para transformar sua vida sexual para sempre!
-              </span>
-            </h1>
+          {/* 1. Headline */}
+          <h1 className="mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
+            O segredo para{" "}
+            <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
+              dominar os múltiplos orgasmos
+            </span>
+            , agora com um SUPER DESCONTO{" "}
+            <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
+              para transformar sua vida sexual para sempre!
+            </span>
+          </h1>
+
+          {/* 2. Logomarca Mestre do Orgasmo — bloco isolado, preço sempre abaixo */}
+          <div className="mt-6 w-full flex flex-col items-center gap-2 pb-8">
+            <img src={IMG.heroBadge} alt="Mestre do Orgasmo" className="w-[200px] h-auto max-h-[120px] object-contain shrink-0" />
+            <p className="text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
           </div>
 
-          {/* Preço — abaixo da logomarca, com espaço definido */}
-          <div className="relative mt-12 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
+          {/* 3. Preço — sempre abaixo da logomarca */}
+          <div className="relative w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
             <div className="absolute inset-0">
               <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40" />
