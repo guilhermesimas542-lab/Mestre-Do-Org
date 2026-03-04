@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
 const CHECKOUT_URL = "#checkout";
-const DECLINE_URL  = "#decline";
+const DECLINE_URL  = "/obrigado";
 
 const IMG = {
   heroBg:      "https://www.figma.com/api/mcp/asset/aa2c2a0f-1466-440f-81a6-1c1dd0de8788",
