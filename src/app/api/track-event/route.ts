@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import type { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 
 interface TrackEventBody {
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest) {
       data: {
         eventType,
         userIdHash: userIdHash ?? null,
-        metadata: metadata ?? undefined,
+        metadata: (metadata ?? undefined) as Prisma.InputJsonValue | undefined,
         ip,
         userAgent,
         createdAt: new Date(),
