@@ -133,6 +133,20 @@ export default function FrontPage() {
   }, []);
 
   useEffect(() => {
+    const urlBackRedirect =
+      "https://institutonexxa.com.br/bd_front".trim() +
+      (window.location.search ? "&" : "?") +
+      window.location.search.replace("?", "");
+    history.pushState({}, "", location.href);
+    history.pushState({}, "", location.href);
+    window.onpopstate = function () {
+      setTimeout(function () {
+        location.href = urlBackRedirect;
+      }, 1);
+    };
+  }, []);
+
+  useEffect(() => {
     const s = document.createElement("script");
     s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/688436fb3d9c5796889c53be/v4/player.js";
     s.async = true;
