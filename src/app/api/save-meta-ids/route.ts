@@ -7,10 +7,8 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-      return NextResponse.json(
-        { ok: false, reason: "not_authenticated" },
-        { status: 401 }
-      );
+      // Visitante anônimo: retorna 200 para não gerar TrackingError no dashboard
+      return NextResponse.json({ ok: false, reason: "not_authenticated" });
     }
 
     const body = await req.json();

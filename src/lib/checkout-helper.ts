@@ -82,21 +82,6 @@ export async function openCheckoutWithTracking(
 
   const finalUrl = url.toString();
 
-  // 4. Desktop → popup; Mobile → redirect direto
-  const isDesktop = window.innerWidth > 768;
-
-  if (isDesktop) {
-    const popup = window.open(
-      finalUrl,
-      "checkout",
-      "width=800,height=700,scrollbars=yes,resizable=yes"
-    );
-
-    // Fallback: se popup bloqueado pelo browser, redireciona normalmente
-    if (!popup || popup.closed || typeof popup.closed === "undefined") {
-      window.location.href = finalUrl;
-    }
-  } else {
-    window.location.href = finalUrl;
-  }
+  // 4. Redirect na mesma aba (fluxo natural do lead, sem popup)
+  window.location.href = finalUrl;
 }

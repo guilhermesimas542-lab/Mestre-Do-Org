@@ -36,6 +36,10 @@ interface MetaCapiBody {
     ln?: string;
     city?: string;
     state?: string;
+    country?: string;
+    zp?: string;
+    db?: string;
+    ge?: string;
   };
   // Formato alternativo enviado pelo front (fb-pixel.ts)
   fbp?: string;
@@ -96,15 +100,17 @@ export async function POST(req: NextRequest) {
     if (userData.ln) {
       user_data.ln = [hashPII(userData.ln)];
     }
-    if (ct) {
-      user_data.ct = [hashPII(ct)];
-    }
-    if (st) {
-      user_data.st = [hashPII(st)];
-    }
-    if (country) {
-      user_data.country = [hashPII(country)];
-    }
+    // Cidade, estado, país: prioridade no userData (ex.: webhook PerfectPay), senão headers Vercel
+    const cityRaw = userData.city ?? ct ?? "";
+    const stateRaw = userData.state ?? st ?? "";
+    const countryRaw = userData.country ?? country ?? "";
+    if (cityRaw) user_data.ct = [hashPII(cityRaw)];
+    if (stateRaw) user_data.st = [hashPII(stateRaw)];
+    if (countryRaw) user_data.country = [hashPII(countryRaw)];
+    // CEP (zp), data de nascimento (db), gênero (ge) — tudo que a Meta aceita
+    if (userData.zp) user_data.zp = [hashPII(userData.zp)];
+    if (userData.db) user_data.db = [hashPII(userData.db)];
+    if (userData.ge) user_data.ge = [hashPII(userData.ge)];
 
     const custom_data: Record<string, unknown> = {};
     if (eventData.value != null) custom_data.value = eventData.value;

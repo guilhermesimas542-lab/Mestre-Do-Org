@@ -25,10 +25,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
-        {/* Meta Pixel — base code */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        {/* Meta Pixel — só injeta se NEXT_PUBLIC_META_PIXEL_ID estiver definido */}
+        {META_PIXEL_ID && (
+          <>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -39,31 +41,33 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${META_PIXEL_ID}');
 fbq('track', 'PageView');
-            `.trim(),
-          }}
-        />
-
-        {/* Meta Pixel — noscript fallback */}
-        <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-            alt=""
-          />
-        </noscript>
+                `.trim(),
+              }}
+            />
+            <noscript>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                height="1"
+                width="1"
+                style={{ display: "none" }}
+                src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+                alt=""
+              />
+            </noscript>
+          </>
+        )}
       </head>
 
       <body className={`${inter.variable} antialiased`}>
         <Providers>{children}</Providers>
 
-        {/* Meta — CAPI Param Builder */}
-        <Script
-          src={`https://connect.facebook.net/signals/config/${META_PIXEL_ID}?v=2.9.94&r=stable&domain=${DOMAIN}`}
-          strategy="afterInteractive"
-        />
+        {/* Meta — CAPI Param Builder (só carrega se Pixel ID configurado) */}
+        {META_PIXEL_ID && (
+          <Script
+            src={`https://connect.facebook.net/signals/config/${META_PIXEL_ID}?v=2.9.94&r=stable&domain=${DOMAIN}`}
+            strategy="afterInteractive"
+          />
+        )}
 
         {/* UTMify — passagem de UTMs */}
         <Script

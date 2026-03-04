@@ -2,6 +2,7 @@
 /* LP Mestre do Orgasmo — Front — Fiel ao Figma (node 146:3656) */
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
+import Script from "next/script";
 import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
@@ -138,21 +139,6 @@ export default function FrontPage() {
     return () => {
       window.removeEventListener("resize", applyScale);
       window.removeEventListener("load", applyScale);
-    };
-  }, []);
-
-  useEffect(() => {
-    let urlBackRedirect = "https://www.institutonexxa.com/bd_front";
-    urlBackRedirect =
-      urlBackRedirect.trim() +
-      (urlBackRedirect.indexOf("?") > 0 ? "&" : "?") +
-      document.location.search.replace("?", "").toString();
-    history.pushState({}, "", location.href);
-    history.pushState({}, "", location.href);
-    window.onpopstate = function () {
-      setTimeout(function () {
-        location.href = urlBackRedirect;
-      }, 1);
     };
   }, []);
 
@@ -397,6 +383,20 @@ export default function FrontPage() {
           Este conteúdo é voltado para educação e desenvolvimento pessoal, e não tem a intenção de diagnosticar ou tratar condições médicas. Para qualquer questão relacionada à saúde, recomendamos consultar um profissional especializado. As informações fornecidas são baseadas em técnicas e abordagens comprovadas, sem substituir orientações médicas. Toda história e personagens apresentados são fictícios e visam ilustrar situações de maneira geral, sem qualquer vínculo com casos reais.
         </p>
       </footer>
+      {/* Back redirect: ao clicar em "voltar", lead é enviado para a página com desconto (bd_front) */}
+      <Script id="back-redirect" strategy="afterInteractive">
+        {`
+          var urlBackRedirect = 'https://www.institutonexxa.com/bd_front';
+          urlBackRedirect = urlBackRedirect.trim() + (urlBackRedirect.indexOf("?") > 0 ? '&' : '?') + document.location.search.replace('?', '').toString();
+          history.pushState({}, "", location.href);
+          history.pushState({}, "", location.href);
+          window.onpopstate = function () {
+            setTimeout(function () {
+              location.href = urlBackRedirect;
+            }, 1);
+          };
+        `}
+      </Script>
     </main>
     </div>
     </div>

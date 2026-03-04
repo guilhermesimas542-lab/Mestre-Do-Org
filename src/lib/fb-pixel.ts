@@ -165,9 +165,9 @@ export async function trackInitiateCheckout(
   }
 
   try {
-    // 3. Grava o evento no banco local
+    // 3. Grava o evento no banco local (com fbp/fbc para recuperação no webhook)
     await trackEvent("InitiateCheckout", {
-      metadata: { plan, value },
+      metadata: { plan, value, fbp, fbc },
     });
   } catch (e) {
     reportTrackingError("track-event", e);
