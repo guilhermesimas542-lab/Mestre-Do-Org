@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { useEffect, useRef } from "react";
 
-const CHECKOUT_URL = "#checkout";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8F6Q";
 
 const IMG = {
   heroBg:       "https://www.figma.com/api/mcp/asset/ad5cad2d-167d-4aff-aae2-34661281e481",
