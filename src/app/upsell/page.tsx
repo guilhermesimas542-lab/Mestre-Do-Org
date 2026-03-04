@@ -115,7 +115,7 @@ export default function UpsellPage() {
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
-    <style>{`.esconder { display: none; }`}</style>
+    {/* <style>{`.esconder { display: none; }`}</style> */}
     <main className="w-[390px] bg-black text-white">
 
       {/* ═══ HERO ═══ */}
