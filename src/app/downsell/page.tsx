@@ -1,18 +1,16 @@
 "use client";
-/* LP Mestre do Orgasmo — Downsell — Página de Obrigado (node 308:157) */
+/* LP Mestre do Orgasmo — Downsell (node 308:157) */
 import { useEffect, useRef } from "react";
 
 const MEMBERS_URL = "#membros";
 const DECLINE_URL = "https://www.institutonexxa.com/obrigado";
 
 const IMG = {
-  ellipse:   "https://www.figma.com/api/mcp/asset/76fa53aa-769b-4a26-8ec2-3e7ee1564e60",
-  logo:      "https://www.figma.com/api/mcp/asset/bf3d6464-567b-4e72-86f3-3191afca45ef",
-  laptop:    "https://www.figma.com/api/mcp/asset/eaa4ae6c-f9ae-454d-a42b-f47174fa15cf",
-  phone:     "https://www.figma.com/api/mcp/asset/ed4e5bff-9c2a-43fc-a5cb-2b9181330b1f",
-  edp:       "https://www.figma.com/api/mcp/asset/807759db-b51f-47f3-b4b4-455c51ed94bc",
-  whatsapp:  "https://www.figma.com/api/mcp/asset/015a0a1b-fe1b-4bba-b124-69141a8b3cd9",
-  nexxa:     "https://www.figma.com/api/mcp/asset/370a50ff-0786-4278-b3e0-83ac94db0c00",
+  ellipse: "https://www.figma.com/api/mcp/asset/1e2b65d5-96eb-4ffa-8109-97ae142bccb7",
+  logo:    "https://www.figma.com/api/mcp/asset/d3636e5d-70e1-4dbc-bba2-296edc0542cb",
+  laptop:  "https://www.figma.com/api/mcp/asset/4572dcde-b4f9-42db-a90d-a4deea532295",
+  phone:   "https://www.figma.com/api/mcp/asset/13dbb054-8c99-4f93-8c69-8ed0ea6dae34",
+  nexxa:   "https://www.figma.com/api/mcp/asset/32fca869-7b64-4b6c-8445-93bdbb7a3ff7",
 };
 
 export default function DownsellPage() {
@@ -49,29 +47,34 @@ export default function DownsellPage() {
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
     <main className="w-[390px] bg-black text-white overflow-hidden">
 
-      {/* ═══ DECORATIVE ELLIPSES ═══ */}
-      <div className="pointer-events-none">
-        <div className="absolute" style={{ left: 219 + 195 - 148, top: 14, width: 296, height: 296, opacity: 0.5 }}>
-          <img src={IMG.ellipse} alt="" className="w-full h-full object-cover" />
+      {/* ═══ ELLIPSES DECORATIVAS ═══ */}
+      <div className="pointer-events-none select-none">
+        <div className="absolute overflow-hidden" style={{ left: 266, top: 14, width: 296, height: 296, opacity: 0.5 }}>
+          <img src={IMG.ellipse} alt="" className="block w-full h-full" />
         </div>
-        <div className="absolute" style={{ left: 195 - 205 - 148, top: 384, width: 296, height: 296, opacity: 0.5 }}>
-          <img src={IMG.ellipse} alt="" className="w-full h-full object-cover" />
-        </div>
-        <div className="absolute" style={{ left: 141 + 195 - 148, top: 970, width: 296, height: 296, opacity: 0.5 }}>
-          <img src={IMG.ellipse} alt="" className="w-full h-full object-cover" />
+        <div className="absolute overflow-hidden" style={{ left: -172, top: 384, width: 296, height: 296, opacity: 0.5 }}>
+          <img src={IMG.ellipse} alt="" className="block w-full h-full" />
         </div>
       </div>
 
-      {/* ═══ HERO — LOGO + TÍTULO ═══ */}
-      <section className="relative flex flex-col items-center pt-[59px] pb-10">
+      {/* ═══ CONTEÚDO PRINCIPAL ═══ */}
+      <section className="relative flex flex-col items-center px-5 pt-[59px] pb-10">
 
         {/* Logo */}
         <div className="relative w-[177px] h-[108px] overflow-hidden">
-          <img src={IMG.logo} alt="Mestre do Orgasmo" className="absolute w-full h-[163%] object-cover -top-[31%]" />
+          <img
+            src={IMG.logo}
+            alt="Mestre do Orgasmo"
+            className="absolute w-full object-cover"
+            style={{ height: "163%", top: "-31.45%" }}
+          />
         </div>
 
         {/* Divider */}
-        <div className="mt-6 w-[309px] h-px bg-gradient-to-r from-transparent via-[#ff3838] to-transparent" />
+        <div
+          className="mt-6 h-px w-[309px]"
+          style={{ background: "linear-gradient(to right, rgba(0,0,0,0), #ff3838 52.885%, rgba(0,0,0,0))" }}
+        />
 
         {/* Título */}
         <div className="mt-6 text-center w-[334px]">
@@ -86,11 +89,21 @@ export default function DownsellPage() {
           Para acessar o treinamento, clique no botão abaixo e faça login na Área de Membros:
         </p>
 
-        {/* Device mockups */}
-        <div className="relative mt-6 w-full flex justify-center" style={{ height: 170 }}>
-          <div className="absolute" style={{ left: 102, top: 0, width: 203, height: 160, overflow: "hidden" }}>
-            <img src={IMG.laptop} alt="" className="absolute w-[166%] h-[140%] object-cover" style={{ left: "-32%", top: "-21%" }} />
+        {/* Mockups */}
+        <div className="relative mt-6 w-full" style={{ height: 170 }}>
+          {/* Laptop */}
+          <div
+            className="absolute overflow-hidden"
+            style={{ left: 102, top: 0, width: 203, height: 160 }}
+          >
+            <img
+              src={IMG.laptop}
+              alt=""
+              className="absolute max-w-none"
+              style={{ width: "166.01%", height: "140.43%", left: "-32.02%", top: "-20.84%" }}
+            />
           </div>
+          {/* Phone */}
           <div className="absolute" style={{ left: 92, top: 3, width: 72, height: 124 }}>
             <img src={IMG.phone} alt="" className="w-full h-full object-cover" />
           </div>
@@ -105,9 +118,9 @@ export default function DownsellPage() {
           ACESSE SUA ÁREA DE MEMBROS AGORA
         </a>
 
-        {/* Aviso spam */}
+        {/* Box spam */}
         <div
-          className="mt-4 flex items-center justify-center rounded-[20px] border border-[#2a2a2a] px-[20px] py-[10px] text-center text-[12px] text-white leading-[16px]"
+          className="mt-4 flex items-center justify-center rounded-[20px] border border-[#2a2a2a] px-5 py-3 text-center text-[12px] text-white leading-[16px]"
           style={{ width: 319, background: "linear-gradient(to top, rgba(0,0,0,0.32), rgba(0,0,0,0))" }}
         >
           Caso não encontre o e-mail com o login, verifique o spam ou a lixeira na sua caixa de entrada.
@@ -116,66 +129,19 @@ export default function DownsellPage() {
         {/* Botão Não */}
         <a
           href={DECLINE_URL}
-          className="mt-4 text-[11px] font-normal text-[rgba(255,255,255,0.4)] underline text-center"
+          className="mt-5 text-[11px] font-normal text-[rgba(255,255,255,0.35)] underline text-center"
         >
           Não, obrigado
         </a>
-      </section>
-
-      {/* ═══ EDP SECTION ═══ */}
-      <section className="relative flex flex-col items-center pb-10">
-
-        {/* Badge */}
-        <div
-          className="flex items-center justify-center rounded-[35px] border border-[#ff3838] px-[20px] py-[5px]"
-          style={{ height: 57, background: "linear-gradient(to top, #ff3838, #f2295b)" }}
-        >
-          <div className="text-center text-white tracking-[1px]">
-            <p className="text-[12px] font-bold leading-[14px]">SEU POTE DO EDP</p>
-            <p className="text-[12px] font-normal leading-[14px]">PRÓXIMOS PASSOS ATÉ A ENTREGA</p>
-          </div>
-        </div>
-
-        {/* Card vermelho */}
-        <div
-          className="mt-4 relative rounded-[16px] border border-[#6b1515] flex flex-col items-center px-6 pt-[50px] pb-8"
-          style={{ width: 358, background: "rgba(242,41,91,0.1)" }}
-        >
-          {/* EDP product image */}
-          <div className="relative flex justify-center" style={{ height: 140 }}>
-            <img src={IMG.edp} alt="" className="blur-[1px] absolute" style={{ left: 0, top: 0, width: 69, height: 126, objectFit: "cover" }} />
-            <img src={IMG.edp} alt="" className="blur-[1px] absolute" style={{ left: 38, top: 0, width: 69, height: 126, objectFit: "cover" }} />
-            <img src={IMG.edp} alt="" className="absolute" style={{ left: 19, top: 0, width: 74, height: 135, objectFit: "cover" }} />
-          </div>
-
-          {/* Delivery text */}
-          <div className="mt-4 text-center text-white w-[315px]">
-            <p className="text-[16px] font-normal leading-[21.4px]">O produto EDP será postado em</p>
-            <p className="text-[29px] font-bold leading-[29.4px] bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">3 a 5 dias úteis.</p>
-            <p className="mt-2 text-[16px] font-normal leading-[21.4px]">
-              Assim que for enviado, você receberá um código de rastreio no seu e-mail para acompanhar o status da entrega.
-            </p>
-            <p className="mt-2 text-[16px] font-normal leading-[21.4px]">
-              Fique tranquilo, estamos cuidando de tudo com o máximo de atenção para que você receba o seu produto o mais rápido possível.
-            </p>
-          </div>
-        </div>
-
-        {/* WhatsApp */}
-        <div className="mt-6 flex items-center gap-1 text-center">
-          <p className="text-[12px] font-bold text-[#00b2ff] underline leading-[16px]">
-            Qualquer dúvida sobre o EDP ou o curso,{" "}
-            <span>fale com a gente pelo WhatsApp.</span>
-          </p>
-          <img src={IMG.whatsapp} alt="" className="w-[11px] h-[11px]" />
-        </div>
       </section>
 
       {/* ═══ FOOTER ═══ */}
       <footer className="w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
         <div className="flex items-center justify-center">
           <img src={IMG.nexxa} alt="Instituto Nexxa" className="h-[11.1px] w-[54px] object-cover" />
-          <span className="text-[11px] font-normal text-[rgba(255,255,255,0.8)] text-center tracking-[0.2px] leading-[18px]">{" "}| Todos os direitos reservados</span>
+          <span className="text-[11px] font-normal text-[rgba(255,255,255,0.8)] text-center tracking-[0.2px] leading-[18px]">
+            {" "}| Todos os direitos reservados
+          </span>
         </div>
         <p className="mt-1 text-[5px] font-normal text-white text-center tracking-[0.2px] leading-[1.2] max-w-[350px]">
           Este conteúdo é voltado para educação e desenvolvimento pessoal, e não tem a intenção de diagnosticar ou tratar condições médicas. Para qualquer questão relacionada à saúde, recomendamos consultar um profissional especializado. As informações fornecidas são baseadas em técnicas e abordagens comprovadas, sem substituir orientações médicas. Toda história e personagens apresentados são fictícios e visam ilustrar situações de maneira geral, sem qualquer vínculo com casos reais.
