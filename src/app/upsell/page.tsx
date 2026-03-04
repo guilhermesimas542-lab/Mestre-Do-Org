@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
-const CHECKOUT_URL = "#checkout";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ85K0";
 const DECLINE_URL  = "#decline";
 
 const IMG = {
