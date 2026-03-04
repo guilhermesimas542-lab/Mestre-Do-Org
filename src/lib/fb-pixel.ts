@@ -102,6 +102,22 @@ export async function trackEvent(
 }
 
 // ---------------------------------------------------------------------------
+// reportTrackingError — grava erro no banco para ver no dashboard
+// ---------------------------------------------------------------------------
+function reportTrackingError(step: string, error: unknown): void {
+  const message = error instanceof Error ? error.message : String(error);
+  fetch("/api/track-event", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      eventName: "TrackingError",
+      metadata: { step, error: message },
+      userAgent: navigator.userAgent,
+    }),
+  }).catch(() => {});
+}
+
+// ---------------------------------------------------------------------------
 // trackInitiateCheckout — salva IDs Meta + dispara CAPI + grava evento
 // ---------------------------------------------------------------------------
 export async function trackInitiateCheckout(
@@ -110,31 +126,50 @@ export async function trackInitiateCheckout(
 ): Promise<void> {
   const { fbp, fbc } = getMetaIds();
 
-  // 1. Persiste fbp/fbc no banco para enriquecer eventos futuros
-  await fetch("/api/save-meta-ids", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fbp, fbc }),
-  });
+  try {
+    // 1. Persiste fbp/fbc no banco (não bloqueia se falhar)
+    const r1 = await fetch("/api/save-meta-ids", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fbp, fbc }),
+    });
+    if (!r1.ok) {
+      reportTrackingError("save-meta-ids", `status ${r1.status}`);
+    }
+  } catch (e) {
+    reportTrackingError("save-meta-ids", e);
+  }
 
-  // 2. Dispara InitiateCheckout via Conversions API (server-side)
-  await fetch("/api/meta-capi", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      eventName: "InitiateCheckout",
-      fbp,
-      fbc,
-      value,
-      currency: "BRL",
-      contentIds: [plan],
-      userAgent: navigator.userAgent,
-      utmParams: getUTMParams(),
-    }),
-  });
+  try {
+    // 2. Dispara InitiateCheckout via CAPI
+    const r2 = await fetch("/api/meta-capi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventName: "InitiateCheckout",
+        fbp,
+        fbc,
+        value,
+        currency: "BRL",
+        contentIds: [plan],
+        userAgent: navigator.userAgent,
+        utmParams: getUTMParams(),
+      }),
+    });
+    if (!r2.ok) {
+      const text = await r2.text();
+      reportTrackingError("meta-capi", `${r2.status}: ${text.slice(0, 200)}`);
+    }
+  } catch (e) {
+    reportTrackingError("meta-capi", e);
+  }
 
-  // 3. Grava o evento no banco local
-  await trackEvent("InitiateCheckout", {
-    metadata: { plan, value },
-  });
+  try {
+    // 3. Grava o evento no banco local
+    await trackEvent("InitiateCheckout", {
+      metadata: { plan, value },
+    });
+  } catch (e) {
+    reportTrackingError("track-event", e);
+  }
 }

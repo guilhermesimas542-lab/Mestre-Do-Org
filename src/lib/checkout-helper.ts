@@ -65,8 +65,8 @@ export async function openCheckoutWithTracking(
   // 1. Coleta UTMs de todas as fontes
   const utms = collectAllUTMs();
 
-  // 2. Dispara InitiateCheckout no Meta Pixel + CAPI + banco
-  await trackInitiateCheckout(plan, value);
+  // 2. Dispara tracking em background (não espera — redirect segue na hora)
+  trackInitiateCheckout(plan, value).catch(() => {});
 
   // 3. Monta a URL final com UTMs e IDs Meta como query params
   const url = new URL(checkoutUrl);

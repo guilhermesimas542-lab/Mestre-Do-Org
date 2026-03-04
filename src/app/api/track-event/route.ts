@@ -3,7 +3,8 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 interface TrackEventBody {
-  eventType: string;
+  eventType?: string;
+  eventName?: string;
   userIdHash?: string;
   metadata?: Record<string, unknown>;
 }
@@ -11,7 +12,8 @@ interface TrackEventBody {
 export async function POST(req: NextRequest) {
   try {
     const body: TrackEventBody = await req.json();
-    const { eventType, userIdHash, metadata } = body;
+    const eventType = body.eventType ?? body.eventName;
+    const { userIdHash, metadata } = body;
 
     if (!eventType) {
       return NextResponse.json(
