@@ -35,6 +35,11 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   callbacks: {
+    redirect({ url, baseUrl }) {
+      const to = url.startsWith("/") ? `${baseUrl}${url}` : url;
+      if (to === baseUrl || to === `${baseUrl}/`) return `${baseUrl}/admin`;
+      return to;
+    },
     async jwt({ token, account, user }) {
       if (account) {
         (token as { accessToken?: string }).accessToken = account.access_token;

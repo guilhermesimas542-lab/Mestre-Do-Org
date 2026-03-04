@@ -10,7 +10,7 @@ export default async function AdminLogsPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    redirect("/api/auth/signin");
+    redirect("/api/auth/signin?callbackUrl=/admin/logs");
   }
 
   const [eventos, pagamentos] = await Promise.all([
@@ -26,16 +26,15 @@ export default async function AdminLogsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 p-6 font-sans">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <header className="flex items-center justify-between border-b border-neutral-700 pb-4">
-          <h1 className="text-2xl font-bold">Logs do tracking</h1>
-          <p className="text-sm text-neutral-400">
-            Logado como {session.user.email}
-          </p>
-        </header>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold text-white">Logs (eventos + pagamentos)</h1>
+        <p className="text-sm text-neutral-400 mt-1">
+          Visão consolidada dos últimos eventos e pagamentos.
+        </p>
+      </div>
 
-        <section>
+      <section>
           <h2 className="text-lg font-semibold mb-3 text-green-400">
             Últimos eventos ({eventos.length})
           </h2>
@@ -109,10 +108,9 @@ export default async function AdminLogsPage() {
           </div>
         </section>
 
-        <p className="text-xs text-neutral-500">
-          Atualize a página para ver novos eventos e pagamentos.
-        </p>
-      </div>
+      <p className="text-xs text-neutral-500">
+        Atualize a página para ver novos eventos e pagamentos.
+      </p>
     </div>
   );
 }
