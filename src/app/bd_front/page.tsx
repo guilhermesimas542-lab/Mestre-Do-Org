@@ -3,6 +3,8 @@
 import type { ReactNode } from "react";
 
 import { useEffect, useRef } from "react";
+import { initFacebookTracking } from "@/lib/fb-pixel";
+import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
 const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8F6Q";
 
@@ -66,15 +68,15 @@ function Inner({ children, className = "" }: { children: ReactNode; className?: 
   return <div className={`mx-auto w-full max-w-[390px] ${className}`}>{children}</div>;
 }
 
-function CtaButton({ children, width = 272 }: { children: ReactNode; width?: number }) {
+function CtaButton({ children, width = 272, onClick }: { children: ReactNode; width?: number; onClick?: () => void }) {
   return (
-    <a
-      href={CHECKOUT_URL}
-      className="flex items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[16px] text-white tracking-[0.7px]"
+    <button
+      onClick={onClick}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[16px] text-white tracking-[0.7px]"
       style={{ width, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
     >
       {children}
-    </a>
+    </button>
   );
 }
 
@@ -107,6 +109,13 @@ function Tag({ children, icon }: { children: ReactNode; icon?: string }) {
 export default function BdFrontPage() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+
+  const handleCheckout = () =>
+    void openCheckoutWithTracking(CHECKOUT_URL, "bd_front", 127);
+
+  useEffect(() => {
+    initFacebookTracking();
+  }, []);
 
   useEffect(() => {
     const inner = innerRef.current;
@@ -201,7 +210,7 @@ export default function BdFrontPage() {
           </p>
 
           <div className="mt-8 flex justify-center">
-            <CtaButton>LIBERAR ACESSO AO CURSO</CtaButton>
+            <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="mt-5 flex justify-center">
             <Selo />
@@ -220,7 +229,7 @@ export default function BdFrontPage() {
           </h2>
           <img src={IMG.benefitsList} alt="Lista de benefícios" className="mt-4 w-[287px] object-contain" />
           <div className="mt-6 flex justify-center">
-            <CtaButton>LIBERAR ACESSO AO CURSO</CtaButton>
+            <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
         </Inner>
       </section>
@@ -247,7 +256,7 @@ export default function BdFrontPage() {
             ))}
           </div>
           <div className="mt-8 flex justify-center">
-            <CtaButton width={327}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
+            <CtaButton width={327} onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
           </div>
           <img src={IMG.camada5} alt="" className="mt-6 w-[339px] h-[46px] object-cover" />
         </Inner>
@@ -273,7 +282,7 @@ export default function BdFrontPage() {
             ))}
           </div>
           <div className="mt-10 flex justify-center">
-            <CtaButton>QUERO MEU BÔNUS</CtaButton>
+            <CtaButton onClick={handleCheckout}>QUERO MEU BÔNUS</CtaButton>
           </div>
         </div>
         <div className="relative w-full h-[75px] overflow-hidden rotate-180">
@@ -305,7 +314,7 @@ export default function BdFrontPage() {
           </div>
           <p className="mt-2 text-center text-[96px] font-bold text-white leading-none tracking-[0.2px]">R$ 127</p>
           <div className="mt-6 flex justify-center">
-            <CtaButton>LIBERAR ACESSO AO CURSO</CtaButton>
+            <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="mt-4 flex justify-center">
             <Selo />
@@ -339,7 +348,7 @@ export default function BdFrontPage() {
           })}
         </div>
         <div className="mt-6 flex justify-center">
-          <CtaButton width={322}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
+          <CtaButton width={322} onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
         </div>
       </section>
 

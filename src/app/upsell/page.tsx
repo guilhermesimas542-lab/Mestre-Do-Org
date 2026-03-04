@@ -2,6 +2,8 @@
 /* LP Mestre do Orgasmo — Upsell (node 358:2) */
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
+import { initFacebookTracking } from "@/lib/fb-pixel";
+import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
 const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ85K0";
 const DECLINE_URL  = "https://www.institutonexxa.com/downsell";
@@ -27,15 +29,15 @@ const benefitItems = [
   { line1: "Aumentar sua testosterona,", line2: "disposição e autoconfiança" },
 ];
 
-function CtaGreen({ children, width = 307 }: { children: ReactNode; width?: number }) {
+function CtaGreen({ children, width = 307, onClick }: { children: ReactNode; width?: number; onClick?: () => void }) {
   return (
-    <a
-      href={CHECKOUT_URL}
-      className="flex items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px]"
+    <button
+      onClick={onClick}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px]"
       style={{ width, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
     >
       {children}
-    </a>
+    </button>
   );
 }
 
@@ -71,6 +73,13 @@ function Selo() {
 export default function UpsellPage() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+
+  const handleCheckout = () =>
+    void openCheckoutWithTracking(CHECKOUT_URL, "upsell", 156);
+
+  useEffect(() => {
+    initFacebookTracking();
+  }, []);
 
   useEffect(() => {
     const inner = innerRef.current;
@@ -164,7 +173,7 @@ export default function UpsellPage() {
 
           {/* CTAs */}
           <div className="esconder mt-8 flex flex-col items-center gap-[17px]">
-            <CtaGreen>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
+            <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
             <CtaDecline>NÃO, PREFIRO CONTINUAR SEM CONTROLE</CtaDecline>
           </div>
 
@@ -283,7 +292,7 @@ export default function UpsellPage() {
 
           {/* CTAs */}
           <div className="mt-6 flex flex-col items-center gap-[17px]">
-            <CtaGreen>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
+            <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
             <CtaDecline>NÃO, PREFIRO CONTINUAR SEM CONTROLE</CtaDecline>
           </div>
         </div>

@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                    String    @id @default(cuid())
+  email                 String    @unique
+  password              String? // hash bcrypt (apenas para login por email/senha)
+  name                  String?
+  isPremium             Boolean   @default(false)
+  planType              String? // "basic" | "pro" | "premium"
+  subscriptionExpiresAt DateTime?
+  fbp                   String? // cookie _fbp do Meta Pixel
+  fbc                   String? // cookie _fbc (contém fbclid)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  events   AdminEvent[]
+  payments Payment[]
+}
+
+model AdminEvent {
+  id         String   @id @default(cuid())
+  eventType  String // "FirstVisit", "InitiateCheckout", "Purchase", etc
+  userIdHash String?
+  metadata   Json?
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  @@index([eventType])
+  @@index([createdAt])
+  @@index([userIdHash])
+}
+
+model Payment {
+  id               String   @id @default(cuid())
+  status           String // "completed" | "refunded"
+  subscriptionType String
+  amount           Float
+  utmParams        Json?
+  gatewayId        String? // ID da transação no gateway
+  createdAt        DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
