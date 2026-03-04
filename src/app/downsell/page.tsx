@@ -1,21 +1,121 @@
 "use client";
-/* LP Mestre do Orgasmo — Downsell (node 308:157) */
+/* LP Mestre do Orgasmo — Downsell / Mestre da Potência (node 373:12) */
+import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
+import { initFacebookTracking } from "@/lib/fb-pixel";
+import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
-const MEMBERS_URL = "#membros";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ85K0";
 const DECLINE_URL = "https://www.institutonexxa.com/obrigado";
 
 const IMG = {
-  ellipse: "https://www.figma.com/api/mcp/asset/1e2b65d5-96eb-4ffa-8109-97ae142bccb7",
-  logo:    "https://www.figma.com/api/mcp/asset/d3636e5d-70e1-4dbc-bba2-296edc0542cb",
-  laptop:  "https://www.figma.com/api/mcp/asset/4572dcde-b4f9-42db-a90d-a4deea532295",
-  phone:   "https://www.figma.com/api/mcp/asset/13dbb054-8c99-4f93-8c69-8ed0ea6dae34",
-  nexxa:   "https://www.figma.com/api/mcp/asset/32fca869-7b64-4b6c-8445-93bdbb7a3ff7",
+  background: "https://www.figma.com/api/mcp/asset/3067dc9d-3643-4db1-929d-94a0b0ba7bd8",
+  mpp:        "https://www.figma.com/api/mcp/asset/906c5a59-3ae4-4a62-98ab-096b9460e6c9",
+  badge:      "https://www.figma.com/api/mcp/asset/8ab874fc-01fe-4144-bb07-a36043703a6e",
+  excluir:    "https://www.figma.com/api/mcp/asset/09c43a98-4469-4ebc-8ba6-022a374a899c",
+  check:      "https://www.figma.com/api/mcp/asset/ca4a3990-0be5-4ca9-a266-8a36373c7f0d",
+  nexxa:      "https://www.figma.com/api/mcp/asset/a10c41c0-3da7-4415-b6d4-a27f8ff2de29",
 };
+
+const problemItems = [
+  "Goza antes dela",
+  "Perde a ereção no meio",
+  ["Demora pra voltar", "depois da primeira"],
+  ["Se sente inseguro, mesmo", "sabendo o que fazer"],
+];
+
+const benefitItems = [
+  "Segurar o gozo",
+  ["Manter a ereção firme", "até o final"],
+  ["Voltar mais rápido para a", "segunda (e terceira)"],
+  ["Aumentar sua testosterona,", "disposição e autoconfiança"],
+];
+
+function CtaGreen({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px]"
+      style={{ width: 307, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function CtaRed() {
+  return (
+    <a
+      href={DECLINE_URL}
+      className="flex items-center justify-center rounded-[120px] bg-[#ac0000] text-center font-bold text-[12px] text-white"
+      style={{ width: 297, height: 48 }}
+    >
+      NÃO, PREFIRO CONTINUAR SEM CONTROLE
+    </a>
+  );
+}
+
+function Selo() {
+  return (
+    <div className="inline-flex items-center gap-[6px] rounded-[6px] border border-[#3a3a3a] bg-[#1a1a1a] px-4 py-[6px]">
+      <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+        <rect x="1" y="6" width="12" height="9" rx="2" stroke="#4d4d4d" strokeWidth="1.5" />
+        <path d="M4 6V4.5a3 3 0 0 1 6 0V6" stroke="#4d4d4d" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="7" cy="10.5" r="1.5" fill="#4d4d4d" />
+      </svg>
+      <span className="text-[11px] font-normal text-[#888] tracking-[0.5px]">Compra 100% Segura</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="#4d4d4d" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M9 12l2 2 4-4" stroke="#4d4d4d" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
+function ProblemCard({ text }: { text: string | string[] }) {
+  const lines = Array.isArray(text) ? text : [text];
+  return (
+    <div
+      className="flex items-center gap-3 rounded-[12px] border border-[rgba(255,56,56,0.5)] bg-[rgba(255,0,4,0.18)] px-[22px] py-[5px]"
+      style={{ width: 313, height: 62, boxShadow: "0px 0px 13px 0px rgba(255,56,56,0.31)" }}
+    >
+      <img src={IMG.excluir} alt="" className="size-[31px] shrink-0 object-cover" />
+      <div className="text-[16px] font-normal text-[#ff3837] tracking-[1px] leading-[18px]">
+        {lines.map((l, i) => (
+          <p key={i} className="m-0">{l}</p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BenefitCard({ text }: { text: string | string[] }) {
+  const lines = Array.isArray(text) ? text : [text];
+  return (
+    <div
+      className="flex items-center gap-3 rounded-[12px] border border-[rgba(255,121,0,0.5)] bg-[rgba(255,121,0,0.05)] px-[22px] py-[5px]"
+      style={{ width: 313, height: 62, boxShadow: "0px 0px 13px 0px rgba(255,56,56,0.31)" }}
+    >
+      <img src={IMG.check} alt="" className="size-[31px] shrink-0" />
+      <div className="text-[16px] font-normal text-white tracking-[1px] leading-[18px]">
+        {lines.map((l, i) => (
+          <p key={i} className="m-0">{l}</p>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function DownsellPage() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+
+  const handleCheckout = () =>
+    void openCheckoutWithTracking(CHECKOUT_URL, "downsell", 97);
+
+  useEffect(() => {
+    initFacebookTracking();
+  }, []);
 
   useEffect(() => {
     const inner = innerRef.current;
@@ -47,92 +147,164 @@ export default function DownsellPage() {
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
     <main className="w-[390px] bg-black text-white overflow-hidden">
 
-      {/* ═══ ELLIPSES DECORATIVAS ═══ */}
-      <div className="pointer-events-none select-none">
-        <div className="absolute overflow-hidden" style={{ left: 266, top: 14, width: 296, height: 296, opacity: 0.5 }}>
-          <img src={IMG.ellipse} alt="" className="block w-full h-full" />
+      {/* ═══ HERO — fundo com imagem ═══ */}
+      <section className="relative flex flex-col items-center pt-[25px] pb-10" style={{ minHeight: 710 }}>
+        <img src={IMG.background} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col items-center w-full px-5">
+          {/* Banners verdes */}
+          <div className="flex flex-col items-center gap-1 mt-2">
+            <div className="rotate-3 rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] px-5 py-[6px] opacity-80 blur-[0px]">
+              <p className="text-[16px] font-normal text-black text-center tracking-[0.2px] leading-[17px]">
+                O verdadeiro segredo das lésbicas.
+              </p>
+            </div>
+            <div className="-rotate-2 rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] px-5 py-[6px] flex items-center justify-center gap-1">
+              <span className="text-[12px] font-bold text-black text-center tracking-[0.15px] leading-[13px]">
+                DESCONTO EXCLUSIVO SOMENTE NESSA PÁGINA
+              </span>
+            </div>
+          </div>
+
+          {/* Mestre do Orgasmo label */}
+          <p className="mt-4 text-[16px] font-normal text-white text-center tracking-[0.7px] leading-[20px]">
+            Mestre do Orgasmo
+          </p>
+
+          {/* Título */}
+          <div className="mt-3 text-center w-[313px]">
+            <p className="text-[24px] font-bold leading-[26px]">
+              <span className="text-white">O segredo para dominar a potência sexual e se tornar um </span>
+              <span className="text-[#fe6f00]">macho alfa</span>
+              <span className="text-white"> na cama, agora com um</span>
+            </p>
+            <p className="text-[24px] font-bold text-[#fe6f00] leading-[26px]">SUPER DESCONTO</p>
+          </div>
+
+          {/* Badge + Produto */}
+          <div className="relative mt-4 w-full flex items-start justify-center" style={{ height: 190 }}>
+            <img src={IMG.badge} alt="" className="absolute left-[25px] top-[-10px] size-[76px] object-cover" />
+            <img src={IMG.mpp} alt="Mestre da Potência" className="w-[328px] h-[190px] object-cover" />
+          </div>
+
+          {/* Preço */}
+          <p className="mt-4 text-[32px] font-normal text-[#6c6c6c] line-through tracking-[0.2px]">DE R$197</p>
+          <p className="text-[64px] font-bold bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent tracking-[0.2px] leading-none">
+            POR R$97
+          </p>
+
+          {/* Economia */}
+          <p className="mt-2 text-[16px] font-normal text-white text-center leading-[20px] w-[313px]">
+            Economize <strong>R$100,00</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
+          </p>
         </div>
-        <div className="absolute overflow-hidden" style={{ left: -172, top: 384, width: 296, height: 296, opacity: 0.5 }}>
-          <img src={IMG.ellipse} alt="" className="block w-full h-full" />
+      </section>
+
+      {/* ═══ CTAs + SELO (1ª vez) ═══ */}
+      <section className="w-full flex flex-col items-center gap-3 pb-6">
+        <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
+        <CtaRed />
+        <div className="mt-1">
+          <Selo />
         </div>
-      </div>
+      </section>
 
-      {/* ═══ CONTEÚDO PRINCIPAL ═══ */}
-      <section className="relative flex flex-col items-center px-5 pt-[59px] pb-10">
+      {/* ═══ SEÇÃO: PROBLEMAS ═══ */}
+      <section className="w-full flex flex-col items-center pt-16 pb-10 px-5">
+        <p className="text-[16px] font-normal text-white text-center leading-[16.4px] tracking-[0.7px]">
+          Você acabou de aprender como dar<br />prazer para uma mulher.
+        </p>
 
-        {/* Logo */}
-        <div className="relative w-[177px] h-[108px] overflow-hidden">
-          <img
-            src={IMG.logo}
-            alt="Mestre do Orgasmo"
-            className="absolute w-full object-cover"
-            style={{ height: "163%", top: "-31.45%" }}
-          />
-        </div>
-
-        {/* Divider */}
-        <div
-          className="mt-6 h-px w-[309px]"
-          style={{ background: "linear-gradient(to right, rgba(0,0,0,0), #ff3838 52.885%, rgba(0,0,0,0))" }}
-        />
-
-        {/* Título */}
-        <div className="mt-6 text-center w-[334px]">
-          <p className="text-[28px] font-bold leading-[30.42px] text-[#58e400]">Parabéns, Mestre!</p>
-          <p className="mt-1 text-[20px] font-normal leading-[22.4px] text-white">
-            Sua inscrição no Mestre do Orgasmo foi confirmada com sucesso!
+        <div className="mt-8 text-center">
+          <p className="text-[28px] font-bold text-[#fe6f00] leading-[28.4px] tracking-[0.7px]">
+            Mas deixa eu te<br />perguntar com toda<br />sinceridade...
           </p>
         </div>
 
-        {/* Subtítulo */}
-        <p className="mt-4 text-[16px] font-normal leading-[21.4px] text-white text-center w-[315px]">
-          Para acessar o treinamento, clique no botão abaixo e faça login na Área de Membros:
+        <p className="mt-6 text-[20px] font-bold text-white text-center leading-[23.4px] tracking-[0.7px]">
+          Você realmente tem o<br />controle do seu corpo?
         </p>
 
-        {/* Mockups */}
-        <div className="relative mt-6 w-full" style={{ height: 170 }}>
-          {/* Laptop */}
-          <div
-            className="absolute overflow-hidden"
-            style={{ left: 102, top: 0, width: 203, height: 160 }}
-          >
-            <img
-              src={IMG.laptop}
-              alt=""
-              className="absolute max-w-none"
-              style={{ width: "166.01%", height: "140.43%", left: "-32.02%", top: "-20.84%" }}
-            />
-          </div>
-          {/* Phone */}
-          <div className="absolute" style={{ left: 92, top: 3, width: 72, height: 124 }}>
-            <img src={IMG.phone} alt="" className="w-full h-full object-cover" />
-          </div>
+        <div className="mt-6 flex flex-col items-center gap-[10px]">
+          {problemItems.map((item, i) => (
+            <ProblemCard key={i} text={item} />
+          ))}
         </div>
 
-        {/* CTA principal */}
-        <a
-          href={MEMBERS_URL}
-          className="mt-6 flex items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[12px] text-white tracking-[0.7px] leading-[30.42px]"
-          style={{ width: 286, height: 52, boxShadow: "0px 0px 20px 0px #3fbf42" }}
-        >
-          ACESSE SUA ÁREA DE MEMBROS AGORA
-        </a>
+        {/* Box pontilhado vermelho */}
+        <div className="mt-6 flex items-center justify-center rounded-none border border-dashed border-red-600 bg-[rgba(255,0,4,0.18)] px-5 py-5" style={{ width: 310, minHeight: 124 }}>
+          <div className="text-center">
+            <p className="text-[12px] font-normal text-white">Se isso acontece com você,</p>
+            <p className="text-[21px] font-bold text-white leading-[24px]">
+              Você ainda não tá<br />pronto pra ser o<br />melhor da vida dela.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        {/* Box spam */}
-        <div
-          className="mt-4 flex items-center justify-center rounded-[20px] border border-[#2a2a2a] px-5 py-3 text-center text-[12px] text-white leading-[16px]"
-          style={{ width: 319, background: "linear-gradient(to top, rgba(0,0,0,0.32), rgba(0,0,0,0))" }}
-        >
-          Caso não encontre o e-mail com o login, verifique o spam ou a lixeira na sua caixa de entrada.
+      {/* ═══ SEÇÃO: BENEFÍCIOS (fundo escuro) ═══ */}
+      <section className="w-full bg-[#141414] flex flex-col items-center pt-14 pb-10 px-5">
+        <div className="text-center tracking-[0.7px]">
+          <p className="text-[28px] font-bold leading-[28.4px]">
+            <span className="text-white">O </span>
+            <span className="text-[#ff7900]">Homem de Potência</span>
+            <span className="text-white"> é</span>
+          </p>
+          <p className="text-[28px] font-bold text-white leading-[28.4px]">meu treinamento prático</p>
+          <p className="text-[28px] font-bold text-white leading-[28.4px]">e 100% natural</p>
+          <p className="text-[28px] font-bold text-white leading-[28.4px]">pra te ajudar a:</p>
         </div>
 
-        {/* Botão Não */}
-        <a
-          href={DECLINE_URL}
-          className="mt-5 text-[11px] font-normal text-[rgba(255,255,255,0.35)] underline text-center"
-        >
-          Não, obrigado
-        </a>
+        <div className="mt-8 flex flex-col items-center gap-[10px]">
+          {benefitItems.map((item, i) => (
+            <BenefitCard key={i} text={item} />
+          ))}
+        </div>
+
+        <p className="mt-8 text-[16px] font-normal text-[#ff7900] text-center tracking-[0.7px] leading-[28.4px]">
+          Ela vai sentir a diferença.
+        </p>
+
+        <p className="mt-1 text-[25px] font-bold text-white text-center leading-[24.4px] tracking-[0.7px]">
+          E você vai se sentir uma<br />máquina na cama.
+        </p>
+      </section>
+
+      {/* ═══ CARD BRANCO: OFERTA EXCLUSIVA ═══ */}
+      <section className="w-full bg-[#141414] flex justify-center pb-10 px-5">
+        <div className="w-[346px] rounded-[26px] bg-white flex flex-col items-center px-6 pt-6 pb-8">
+          <p className="text-[18px] font-bold text-black text-center leading-[21px] tracking-[0.7px]">
+            Apenas agora e nessa<br />página você tem a<br />oportunidade de ter acesso<br />a uma oferta exclusiva
+          </p>
+          <p className="mt-2 text-[16px] font-normal text-black text-center leading-[17.4px] tracking-[0.7px]">
+            Para você que já é meu aluno o<br />curso está apenas:
+          </p>
+
+          {/* Divisor */}
+          <div className="mt-4 h-[2px] w-[300px] rounded-[1.5px] bg-[#e9e9e9]" />
+
+          <p className="mt-4 text-[22px] font-bold text-black text-center tracking-[0.7px]">por apenas</p>
+          <p className="text-[62px] font-bold text-[#fe6f00] text-center leading-[60px]">R$97,00</p>
+
+          {/* Divisor */}
+          <div className="mt-4 h-[2px] w-[300px] rounded-[1.5px] bg-[#e9e9e9]" />
+
+          <p className="mt-4 text-[16px] font-normal text-black text-center leading-[21px] tracking-[0.7px]">
+            Só aqui. Só agora.
+          </p>
+          <p className="mt-2 text-[24px] font-bold text-black text-center leading-[26px] tracking-[0.7px]">
+            ESSA OFERTA NÃO<br />APARECE DE NOVO.
+          </p>
+          <p className="mt-3 text-[16px] font-normal text-black text-center leading-[21px] tracking-[0.7px]">
+            Clique no botão abaixo e sua<br />compra já será concluída sem precisar<br />preencher nada
+          </p>
+
+          {/* CTAs dentro do card */}
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
+            <CtaRed />
+          </div>
+        </div>
       </section>
 
       {/* ═══ FOOTER ═══ */}
