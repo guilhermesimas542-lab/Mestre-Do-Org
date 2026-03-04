@@ -132,6 +132,21 @@ export default function FrontPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const s = document.createElement("script");
+    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/688436fb3d9c5796889c53be/v4/player.js";
+    s.async = true;
+    document.head.appendChild(s);
+
+    const delaySeconds = 1293;
+    const player = document.querySelector("vturb-smartplayer") as any;
+    if (player) {
+      player.addEventListener("player:ready", function () {
+        player.displayHiddenElements(delaySeconds, ["#esconder"], { persist: true });
+      });
+    }
+  }, []);
+
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
@@ -174,7 +189,17 @@ export default function FrontPage() {
               (não importa se você tem p*u pequeno ou pouca experiência na cama)
             </p>
           </div>
-          <div className="mt-8 flex justify-center">
+
+          {/* ═══ VSL ═══ */}
+          <div className="mt-6 w-full">
+            {/* @ts-ignore */}
+            <vturb-smartplayer
+              id="vid-688436fb3d9c5796889c53be"
+              style={{ display: "block", margin: "0 auto", width: "100%" }}
+            />
+          </div>
+
+          <div id="esconder" className="mt-8 flex justify-center">
             <CtaButton>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="mt-5 flex justify-center">
@@ -184,7 +209,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ BENEFÍCIOS ═══ */}
-      <section className="w-full pt-10 pb-10">
+      <section id="esconder" className="w-full pt-10 pb-10">
         <Inner className="flex flex-col items-center">
           <Tag icon={IMG.checkCircle}>BENEFÍCIOS</Tag>
           <h2 className="mt-4 text-center text-[24px] font-bold tracking-[0.7px] leading-[30.42px]">
@@ -200,7 +225,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ PARA QUEM É ═══ */}
-      <section className="w-full pt-10 pb-10">
+      <section id="esconder" className="w-full pt-10 pb-10">
         <Inner className="flex flex-col items-center px-[19.5px]">
           <Tag icon={IMG.checkCircle}>PARA QUEM É</Tag>
           <h2 className="mt-4 text-center text-[24px] font-bold tracking-[0.7px] leading-[30.42px]">
@@ -228,7 +253,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ BÔNUS — fundo #d7d7d7 cobre 100% ═══ */}
-      <section className="w-full">
+      <section id="esconder" className="w-full">
         <div className="relative w-full h-[79px] overflow-hidden">
           <img src={IMG.separator} alt="" className="absolute inset-0 w-full h-[300%] -top-[156%] object-cover" />
         </div>
@@ -256,7 +281,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ PREÇO ═══ */}
-      <section className="w-full pt-10 pb-10 flex justify-center">
+      <section id="esconder" className="w-full pt-10 pb-10 flex justify-center">
         <div className="w-[348px] rounded-[20px] border border-[#4d4d4d] bg-[#202020] px-[9px] pt-[9px] pb-[20px]">
           {pricingRows.map((row, i) => (
             <div key={i}>
@@ -288,7 +313,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ CONTEÚDO / TIMELINE ═══ */}
-      <section className="w-full pt-10 pb-10 flex flex-col items-center">
+      <section id="esconder" className="w-full pt-10 pb-10 flex flex-col items-center">
         <div className="text-center">
           <p className="text-[16px] font-bold text-white leading-[23.4px]">Dentro do treinamento</p>
           <p className="text-[24px] font-bold bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent leading-[23.4px]">Eu vou te mostrar</p>
@@ -318,7 +343,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ INSTRUTORA ═══ */}
-      <section className="w-full pt-10 pb-10 flex justify-center">
+      <section id="esconder" className="w-full pt-10 pb-10 flex justify-center">
         <div className="relative w-[348px]" style={{ height: 734 }}>
           <div className="absolute rounded-[10px] border border-[#4d4d4d] bg-[#171717]" style={{ left: 0, top: 194, width: 348, height: 540 }} />
           <div className="absolute rounded-[10px] overflow-hidden" style={{ left: 0, top: 0, width: 348, height: 472 }}>
@@ -338,7 +363,7 @@ export default function FrontPage() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
+      <footer id="esconder" className="w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
         <div className="flex items-center justify-center">
           <img src={IMG.nexxa} alt="Instituto Nexxa" className="h-[11.1px] w-[54px] object-cover" />
           <span className="text-[11px] font-normal text-[rgba(255,255,255,0.8)] text-center tracking-[0.2px] leading-[18px]">{" "}| Todos os direitos reservados</span>
