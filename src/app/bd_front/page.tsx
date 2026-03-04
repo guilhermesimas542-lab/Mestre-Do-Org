@@ -171,9 +171,9 @@ export default function BdFrontPage() {
             </div>
           </div>
 
-          {/* Badge + Heading */}
+          {/* Logomarca Mestre do Orgasmo — preço fica sempre abaixo */}
           <div className="mt-8 w-full flex flex-col items-center gap-4">
-            <img src={IMG.heroBadge} alt="Mestre do Orgasmo" className="size-[87px] object-cover" />
+            <img src={IMG.heroBadge} alt="Mestre do Orgasmo" className="size-[87px] object-cover shrink-0" />
             <h1 className="text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
               O segredo para{" "}
               <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
@@ -186,8 +186,8 @@ export default function BdFrontPage() {
             </h1>
           </div>
 
-          {/* Price display */}
-          <div className="relative mt-6 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
+          {/* Preço — abaixo da logomarca, com espaço definido */}
+          <div className="relative mt-12 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
             <div className="absolute inset-0">
               <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40" />
