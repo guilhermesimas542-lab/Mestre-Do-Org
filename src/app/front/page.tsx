@@ -133,24 +133,18 @@ export default function FrontPage() {
   }, []);
 
   useEffect(() => {
-    function setBackRedirect(url: string) {
-      const urlBackRedirect =
-        url.trim() +
-        (url.indexOf("?") > 0 ? "&" : "?") +
-        document.location.search.replace("?", "").toString();
-
-      history.pushState({}, "", location.href);
-      history.pushState({}, "", location.href);
-      history.pushState({}, "", location.href);
-
-      window.addEventListener("popstate", () => {
-        setTimeout(() => {
-          location.href = urlBackRedirect;
-        }, 1);
-      });
-    }
-
-    setBackRedirect("https://www.institutonexxa.com/bd_front");
+    let urlBackRedirect = "https://www.institutonexxa.com/bd_front";
+    urlBackRedirect =
+      urlBackRedirect.trim() +
+      (urlBackRedirect.indexOf("?") > 0 ? "&" : "?") +
+      document.location.search.replace("?", "").toString();
+    history.pushState({}, "", location.href);
+    history.pushState({}, "", location.href);
+    window.onpopstate = function () {
+      setTimeout(function () {
+        location.href = urlBackRedirect;
+      }, 1);
+    };
   }, []);
 
   useEffect(() => {
