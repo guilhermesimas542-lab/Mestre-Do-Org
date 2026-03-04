@@ -35,8 +35,8 @@ function CtaGreen({ children, onClick }: { children: ReactNode; onClick?: () => 
   return (
     <button
       onClick={onClick}
-      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px]"
-      style={{ width: 307, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px] w-full max-w-[307px] mx-auto"
+      style={{ height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
     >
       {children}
     </button>
@@ -47,8 +47,8 @@ function CtaRed() {
   return (
     <a
       href={DECLINE_URL}
-      className="flex items-center justify-center rounded-[120px] bg-[#ac0000] text-center font-bold text-[12px] text-white"
-      style={{ width: 297, height: 48 }}
+      className="flex items-center justify-center rounded-[120px] bg-[#ac0000] text-center font-bold text-[12px] text-white w-full max-w-[297px] mx-auto"
+      style={{ height: 48 }}
     >
       NÃO, PREFIRO CONTINUAR SEM CONTROLE
     </a>
@@ -201,7 +201,7 @@ export default function DownsellPage() {
       </section>
 
       {/* ═══ CTAs + SELO (1ª vez) ═══ */}
-      <section className="w-full flex flex-col items-center gap-3 pb-6">
+      <section className="w-full flex flex-col items-center gap-3 pb-6 px-8">
         <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
         <CtaRed />
         <div className="mt-1">
@@ -300,7 +300,7 @@ export default function DownsellPage() {
           </p>
 
           {/* CTAs dentro do card */}
-          <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="mt-6 flex flex-col items-center gap-3 w-full px-2">
             <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
             <CtaRed />
           </div>

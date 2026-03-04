@@ -29,24 +29,24 @@ const benefitItems = [
   { line1: "Aumentar sua testosterona,", line2: "disposição e autoconfiança" },
 ];
 
-function CtaGreen({ children, width = 307, onClick }: { children: ReactNode; width?: number; onClick?: () => void }) {
+function CtaGreen({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px]"
-      style={{ width, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#00e304] text-center font-bold text-[16px] text-white tracking-[0.7px] w-full max-w-[307px] mx-auto"
+      style={{ height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
     >
       {children}
     </button>
   );
 }
 
-function CtaDecline({ children, width = 297 }: { children: ReactNode; width?: number }) {
+function CtaDecline({ children }: { children: ReactNode }) {
   return (
     <a
       href={DECLINE_URL}
-      className="flex items-center justify-center rounded-[120px] bg-[#ac0000] text-center font-bold text-[12px] text-white"
-      style={{ width, height: 48 }}
+      className="flex items-center justify-center rounded-[120px] bg-[#ac0000] text-center font-bold text-[12px] text-white w-full max-w-[297px] mx-auto"
+      style={{ height: 48 }}
     >
       {children}
     </a>
@@ -172,7 +172,7 @@ export default function UpsellPage() {
           </div>
 
           {/* CTAs */}
-          <div className="esconder mt-8 flex flex-col items-center gap-[17px]">
+          <div className="esconder mt-8 flex flex-col items-center gap-[17px] w-full px-6">
             <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
             <CtaDecline>NÃO, PREFIRO CONTINUAR SEM CONTROLE</CtaDecline>
           </div>
@@ -291,7 +291,7 @@ export default function UpsellPage() {
           </p>
 
           {/* CTAs */}
-          <div className="mt-6 flex flex-col items-center gap-[17px]">
+          <div className="mt-6 flex flex-col items-center gap-[17px] w-full px-4">
             <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
             <CtaDecline>NÃO, PREFIRO CONTINUAR SEM CONTROLE</CtaDecline>
           </div>

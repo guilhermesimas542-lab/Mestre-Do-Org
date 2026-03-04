@@ -68,12 +68,12 @@ function Inner({ children, className = "" }: { children: ReactNode; className?: 
   return <div className={`mx-auto w-full max-w-[390px] ${className}`}>{children}</div>;
 }
 
-function CtaButton({ children, width = 272, onClick }: { children: ReactNode; width?: number; onClick?: () => void }) {
+function CtaButton({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[16px] text-white tracking-[0.7px]"
-      style={{ width, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[16px] text-white tracking-[0.7px] w-full max-w-[327px] mx-auto"
+      style={{ height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
     >
       {children}
     </button>
@@ -210,7 +210,7 @@ export default function FrontPage() {
             />
           </div>
 
-          <div className="esconder mt-8 flex justify-center">
+          <div className="esconder mt-8 w-full px-6">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="esconder mt-5 flex justify-center">
@@ -229,7 +229,7 @@ export default function FrontPage() {
             <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">você terá:</span>
           </h2>
           <img src={IMG.benefitsList} alt="Lista de benefícios" className="mt-4 w-[287px] object-contain" />
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 w-full px-6">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
         </Inner>
@@ -256,8 +256,8 @@ export default function FrontPage() {
               </div>
             ))}
           </div>
-          <div className="mt-8 flex justify-center">
-            <CtaButton width={327} onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
+          <div className="mt-8 w-full px-6">
+            <CtaButton onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
           </div>
           <img src={IMG.camada5} alt="" className="mt-6 w-[339px] h-[46px] object-cover" />
         </Inner>
@@ -282,7 +282,7 @@ export default function FrontPage() {
               </div>
             ))}
           </div>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-10 px-6 flex justify-center">
             <CtaButton onClick={handleCheckout}>QUERO MEU BÔNUS</CtaButton>
           </div>
         </div>
@@ -314,7 +314,7 @@ export default function FrontPage() {
             </div>
           </div>
           <p className="mt-2 text-center text-[96px] font-bold text-white leading-none tracking-[0.2px]">R$ 167</p>
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 px-4">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="mt-4 flex justify-center">
@@ -348,8 +348,8 @@ export default function FrontPage() {
             );
           })}
         </div>
-        <div className="mt-6 flex justify-center">
-          <CtaButton width={322} onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
+        <div className="mt-6 w-full px-8">
+          <CtaButton onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
         </div>
       </section>
 

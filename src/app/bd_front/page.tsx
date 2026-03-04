@@ -68,12 +68,12 @@ function Inner({ children, className = "" }: { children: ReactNode; className?: 
   return <div className={`mx-auto w-full max-w-[390px] ${className}`}>{children}</div>;
 }
 
-function CtaButton({ children, width = 272, onClick }: { children: ReactNode; width?: number; onClick?: () => void }) {
+function CtaButton({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[16px] text-white tracking-[0.7px]"
-      style={{ width, height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
+      className="flex cursor-pointer items-center justify-center rounded-[120px] bg-[#3fbf42] text-center font-bold text-[16px] text-white tracking-[0.7px] w-full max-w-[327px] mx-auto"
+      style={{ height: 62, boxShadow: "0px 0px 20px 0px rgba(127,255,76,0.5)" }}
     >
       {children}
     </button>
@@ -156,29 +156,23 @@ export default function BdFrontPage() {
         <Inner className="relative flex flex-col items-center px-[19.5px] pb-10">
 
           {/* Ribbons */}
-          <div className="mt-[27px] flex flex-col items-center w-full">
-            {/* Ribbon 1 — blurry */}
-            <div className="flex justify-center w-full h-[55.6px] mb-[-26.28px]">
-              <div className="rotate-3">
-                <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] opacity-80 blur-[4px] w-[315px] h-[39.15px] px-5">
-                  <p className="text-[16.125px] font-normal text-black text-center tracking-[0.2px] leading-[17.16px]">O verdadeiro segredo das lésbicas.</p>
-                </div>
+          <div className="mt-[27px] flex flex-col items-center gap-2 w-full">
+            <div className="rotate-3">
+              <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] opacity-80 blur-[4px] w-[315px] h-[39px] px-5">
+                <p className="text-[16px] font-normal text-black text-center tracking-[0.2px] leading-[17px]">O verdadeiro segredo das lésbicas.</p>
               </div>
             </div>
-            {/* Ribbon 2 — sharp green, DESCONTO EXCLUSIVO */}
-            <div className="flex justify-center w-full h-[50.12px] mb-[-26.28px]">
-              <div className="-rotate-2">
-                <div className="flex items-center justify-center gap-[6px] rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] w-[315px] h-[39.15px] px-5">
-                  <img src={IMG.lightning} alt="" className="size-[19.5px]" />
-                  <p className="text-[12.164px] font-bold text-black text-center tracking-[0.15px] leading-[12.94px]">DESCONTO EXCLUSIVO SOMENTE NESSA PÁGINA</p>
-                  <img src={IMG.lightning} alt="" className="size-[19.5px]" />
-                </div>
+            <div className="-rotate-2">
+              <div className="flex items-center justify-center gap-[6px] rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] w-[315px] h-[39px] px-5">
+                <img src={IMG.lightning} alt="" className="size-[19.5px]" />
+                <p className="text-[12px] font-bold text-black text-center tracking-[0.15px] leading-[13px]">DESCONTO EXCLUSIVO SOMENTE NESSA PÁGINA</p>
+                <img src={IMG.lightning} alt="" className="size-[19.5px]" />
               </div>
             </div>
           </div>
 
           {/* Badge + Heading */}
-          <div className="mt-[56px] w-full flex flex-col items-center gap-4">
+          <div className="mt-8 w-full flex flex-col items-center gap-4">
             <img src={IMG.heroBadge} alt="Mestre do Orgasmo" className="size-[87px] object-cover" />
             <h1 className="text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
               O segredo para{" "}
@@ -209,7 +203,7 @@ export default function BdFrontPage() {
             Economize <strong>R$200</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
           </p>
 
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 w-full px-6">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="mt-5 flex justify-center">
@@ -228,7 +222,7 @@ export default function BdFrontPage() {
             <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">você terá:</span>
           </h2>
           <img src={IMG.benefitsList} alt="Lista de benefícios" className="mt-4 w-[287px] object-contain" />
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 w-full px-6">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
         </Inner>
@@ -255,8 +249,8 @@ export default function BdFrontPage() {
               </div>
             ))}
           </div>
-          <div className="mt-8 flex justify-center">
-            <CtaButton width={327} onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
+          <div className="mt-8 w-full px-6">
+            <CtaButton onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
           </div>
           <img src={IMG.camada5} alt="" className="mt-6 w-[339px] h-[46px] object-cover" />
         </Inner>
@@ -281,7 +275,7 @@ export default function BdFrontPage() {
               </div>
             ))}
           </div>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-10 px-6 flex justify-center">
             <CtaButton onClick={handleCheckout}>QUERO MEU BÔNUS</CtaButton>
           </div>
         </div>
@@ -313,7 +307,7 @@ export default function BdFrontPage() {
             </div>
           </div>
           <p className="mt-2 text-center text-[96px] font-bold text-white leading-none tracking-[0.2px]">R$ 127</p>
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 px-4">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
           <div className="mt-4 flex justify-center">
@@ -347,8 +341,8 @@ export default function BdFrontPage() {
             );
           })}
         </div>
-        <div className="mt-6 flex justify-center">
-          <CtaButton width={322} onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
+        <div className="mt-6 w-full px-8">
+          <CtaButton onClick={handleCheckout}>QUERO PARTICIPAR DO TREINAMENTO</CtaButton>
         </div>
       </section>
 
