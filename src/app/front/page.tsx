@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
-const CHECKOUT_URL = "#checkout";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8F6P";
 
 const IMG = {
   heroBg:       "https://www.figma.com/api/mcp/asset/42cf4038-1e96-4e2b-912a-7f31925e01ad",
@@ -150,7 +150,7 @@ export default function FrontPage() {
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
-    <style>{`.esconder { display: none; }`}</style>
+    {/* <style>{`.esconder { display: none; }`}</style> */}
     <main className="w-[390px] bg-black text-white">
 
       {/* ═══ HERO ═══ */}
