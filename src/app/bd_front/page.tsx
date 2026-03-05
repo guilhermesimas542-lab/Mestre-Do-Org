@@ -106,12 +106,42 @@ function Tag({ children, icon }: { children: ReactNode; icon?: string }) {
   );
 }
 
+const DEBUG_LOG = (data: Record<string, unknown>, hypothesisId: string) => {
+  try {
+    fetch("http://127.0.0.1:7604/ingest/272b5f72-4048-4c46-b6b8-701b4aff62a8", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "5e3c48" },
+      body: JSON.stringify({
+        sessionId: "5e3c48",
+        location: "bd_front/page.tsx",
+        message: "layout-debug",
+        data,
+        hypothesisId,
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+  } catch (_) {}
+};
+
 export default function BdFrontPage() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const logoBlockRef = useRef<HTMLDivElement>(null);
+  const priceBlockRef = useRef<HTMLDivElement>(null);
 
   const handleCheckout = () =>
     void openCheckoutWithTracking(CHECKOUT_URL, "bd_front", 127);
+
+  const handleHeroBadgeLoad = () => {
+    const el = logoBlockRef.current;
+    if (el) {
+      const r = el.getBoundingClientRect();
+      DEBUG_LOG(
+        { event: "heroBadgeLoaded", logoHeight: r.height, logoBottom: r.bottom },
+        "H4"
+      );
+    }
+  };
 
   useEffect(() => {
     initFacebookTracking();
@@ -122,14 +152,30 @@ export default function BdFrontPage() {
     const outer = outerRef.current;
     if (!inner || !outer) return;
 
+    let runId = 0;
     function applyScale() {
       if (!inner || !outer) return;
+      // #region agent log
+      const scrollHeightBefore = inner.scrollHeight;
       inner.style.transform = "none";
       const naturalHeight = inner.scrollHeight;
       const scale = window.innerWidth / 390;
       inner.style.transformOrigin = "top left";
       inner.style.transform = `scale(${scale})`;
       outer.style.height = naturalHeight * scale + "px";
+      runId += 1;
+      DEBUG_LOG(
+        {
+          runId,
+          naturalHeight,
+          scale,
+          outerHeight: naturalHeight * scale,
+          scrollHeightBefore,
+          innerWidth: window.innerWidth,
+        },
+        "H1-H2-H4"
+      );
+      // #endregion
     }
 
     applyScale();
@@ -139,6 +185,41 @@ export default function BdFrontPage() {
     return () => {
       window.removeEventListener("resize", applyScale);
       window.removeEventListener("load", applyScale);
+    };
+  }, []);
+
+  useEffect(() => {
+    const inner = innerRef.current;
+    const logoBlock = logoBlockRef.current;
+    const priceBlock = priceBlockRef.current;
+    if (!inner || !logoBlock || !priceBlock) return;
+
+    const measure = () => {
+      const logoRect = logoBlock.getBoundingClientRect();
+      const priceRect = priceBlock.getBoundingClientRect();
+      const logoBottom = logoRect.bottom;
+      const priceTop = priceRect.top;
+      const overlap = priceTop < logoBottom - 2;
+      DEBUG_LOG(
+        {
+          logoHeight: logoRect.height,
+          logoBottom,
+          priceTop,
+          priceHeight: priceRect.height,
+          overlap,
+          innerScrollHeight: inner.scrollHeight,
+        },
+        "H3-H5"
+      );
+    };
+
+    const t = requestAnimationFrame(() => requestAnimationFrame(measure));
+    const t2 = setTimeout(measure, 500);
+    const t3 = setTimeout(measure, 1500);
+    return () => {
+      cancelAnimationFrame(t);
+      clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, []);
 
@@ -155,7 +236,7 @@ export default function BdFrontPage() {
         </div>
         <Inner className="relative flex flex-col items-center px-[19.5px] pb-10">
 
-          {/* Ribbons */}
+          {/* 1. Desconto exclusivo somente nessa página */}
           <div className="mt-[27px] flex flex-col items-center gap-2 w-full">
             <div className="rotate-3">
               <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] opacity-80 blur-[4px] w-[315px] h-[39px] px-5">
@@ -171,7 +252,7 @@ export default function BdFrontPage() {
             </div>
           </div>
 
-          {/* 1. Headline */}
+          {/* 2. Headline */}
           <h1 className="mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
             O segredo para{" "}
             <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
@@ -183,14 +264,21 @@ export default function BdFrontPage() {
             </span>
           </h1>
 
-          {/* 2. Logomarca Mestre do Orgasmo — bloco isolado, preço sempre abaixo */}
-          <div className="mt-6 w-full flex flex-col items-center gap-2 pb-8">
-            <img src={IMG.heroBadge} alt="Mestre do Orgasmo" className="w-[200px] h-auto max-h-[120px] object-contain shrink-0" />
-            <p className="text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
+          {/* 3. BY INSTITUTO NEXXA */}
+          <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
+
+          {/* 4. Logo Mestre do Orgasmo (imagem) — bloco com altura mínima para preço nunca sobrepor */}
+          <div ref={logoBlockRef} className="mt-2 w-full flex flex-col items-center min-h-[200px]">
+            <img
+              src={IMG.heroBadge}
+              alt="Mestre do Orgasmo"
+              className="w-[200px] h-auto max-h-[140px] object-contain shrink-0"
+              onLoad={handleHeroBadgeLoad}
+            />
           </div>
 
-          {/* 3. Preço — sempre abaixo da logomarca */}
-          <div className="relative w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
+          {/* 5. Preço — sempre abaixo da logo, com margem fixa */}
+          <div ref={priceBlockRef} className="relative mt-8 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
             <div className="absolute inset-0">
               <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40" />
