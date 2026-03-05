@@ -2,7 +2,7 @@
 /* LP Mestre do Orgasmo — Backend Front (node 146:3948) */
 import type { ReactNode } from "react";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
@@ -128,11 +128,13 @@ export default function BdFrontPage() {
   const innerRef = useRef<HTMLDivElement>(null);
   const logoBlockRef = useRef<HTMLDivElement>(null);
   const priceBlockRef = useRef<HTMLDivElement>(null);
+  const [logoImageLoaded, setLogoImageLoaded] = useState(false);
 
   const handleCheckout = () =>
     void openCheckoutWithTracking(CHECKOUT_URL, "bd_front", 127);
 
   const handleHeroBadgeLoad = () => {
+    setLogoImageLoaded(true);
     const el = logoBlockRef.current;
     if (el) {
       const r = el.getBoundingClientRect();
@@ -186,7 +188,7 @@ export default function BdFrontPage() {
       window.removeEventListener("resize", applyScale);
       window.removeEventListener("load", applyScale);
     };
-  }, []);
+  }, [logoImageLoaded]);
 
   useEffect(() => {
     const inner = innerRef.current;
@@ -267,18 +269,21 @@ export default function BdFrontPage() {
           {/* 3. BY INSTITUTO NEXXA */}
           <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
 
-          {/* 4. Logo Mestre do Orgasmo (imagem) — bloco com altura mínima para preço nunca sobrepor */}
-          <div ref={logoBlockRef} className="mt-2 w-full flex flex-col items-center min-h-[200px]">
+          {/* 4. Logo Mestre do Orgasmo (imagem) — altura fixa + z-index para nunca ficar atrás do preço */}
+          <div ref={logoBlockRef} className="relative z-10 mt-2 w-full flex flex-col items-center justify-center h-[260px] shrink-0">
             <img
               src={IMG.heroBadge}
               alt="Mestre do Orgasmo"
-              className="w-[200px] h-auto max-h-[140px] object-contain shrink-0"
+              className="w-[200px] h-auto max-h-[160px] object-contain shrink-0"
               onLoad={handleHeroBadgeLoad}
             />
           </div>
 
-          {/* 5. Preço — sempre abaixo da logo, com margem fixa */}
-          <div ref={priceBlockRef} className="relative mt-8 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
+          {/* Espaçador fixo: garante que o preço comece sempre abaixo da logo (evita sobreposição por scale/reflow) */}
+          <div className="h-8 shrink-0" aria-hidden="true" />
+
+          {/* 5. Preço — sempre abaixo da logo; z-index menor para, se houver overlap, a logo fique por cima */}
+          <div ref={priceBlockRef} className="relative z-0 mt-4 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
             <div className="absolute inset-0">
               <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40" />
