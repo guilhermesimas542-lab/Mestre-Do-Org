@@ -109,8 +109,6 @@ function Tag({ children, icon }: { children: ReactNode; icon?: string }) {
 export default function BdFrontPage() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const logoBlockRef = useRef<HTMLDivElement>(null);
-  const priceBlockRef = useRef<HTMLDivElement>(null);
   const [logoImageLoaded, setLogoImageLoaded] = useState(false);
 
   const handleCheckout = () =>
@@ -191,30 +189,24 @@ export default function BdFrontPage() {
           {/* 3. BY INSTITUTO NEXXA */}
           <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
 
-          {/* 4. Logo — espaço reservado para evitar sobreposição */}
-          <div ref={logoBlockRef} className="relative z-10 mt-2 w-full flex flex-col items-center justify-center min-h-[220px]">
+          {/* 4. Imagem do produto — sem position, sem z-index, fluxo normal */}
+          <div className="w-full flex justify-center items-center pt-6 pb-2 px-4">
             <img
               src={IMG.heroBadge}
               alt="Mestre do Orgasmo"
-              className="w-[200px] h-auto max-h-[160px] object-contain shrink-0"
+              className="w-full max-w-[300px] h-auto"
               onLoad={handleHeroBadgeLoad}
             />
           </div>
 
-          {/* 5. Preço — margem grande para ficar sempre abaixo da logo */}
-          <div ref={priceBlockRef} className="relative z-0 mt-10 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
-            <div className="absolute inset-0">
-              <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/40" />
-            </div>
-            <div className="relative flex flex-col items-center py-5">
-              <p className="text-[32px] font-normal text-[#6c6c6c] text-center leading-none line-through tracking-[0.2px]">DE R$297</p>
-              <p className="text-[64px] font-bold text-center leading-none tracking-[0.2px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent">POR R$127</p>
-            </div>
+          {/* 5. Preço — abaixo da imagem, sem position nem z-index */}
+          <div className="w-full text-center px-4 pb-4 pt-4">
+            <p className="text-[32px] font-normal text-[#6c6c6c] text-center leading-none line-through tracking-[0.2px]">DE R$297</p>
+            <p className="mt-2 text-[64px] font-bold text-center leading-none tracking-[0.2px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent">POR R$127</p>
           </div>
 
           {/* Sub text */}
-          <p className="mt-4 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
+          <p className="mt-2 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
             Economize <strong>R$200</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
           </p>
 
