@@ -125,6 +125,7 @@ const DEBUG_LOG = (data: Record<string, unknown>, hypothesisId: string) => {
 
 export default function BdFrontPage() {
   const outerRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const logoBlockRef = useRef<HTMLDivElement>(null);
   const priceBlockRef = useRef<HTMLDivElement>(null);
@@ -152,32 +153,20 @@ export default function BdFrontPage() {
   useEffect(() => {
     const inner = innerRef.current;
     const outer = outerRef.current;
-    if (!inner || !outer) return;
+    const hero = heroRef.current;
+    if (!inner || !outer || !hero) return;
 
-    let runId = 0;
     function applyScale() {
-      if (!inner || !outer) return;
-      // #region agent log
-      const scrollHeightBefore = inner.scrollHeight;
+      if (!inner || !outer || !hero) return;
+      const heroHeight = hero.getBoundingClientRect().height;
       inner.style.transform = "none";
-      const naturalHeight = inner.scrollHeight;
-      const scale = window.innerWidth / 390;
+      const restNaturalHeight = inner.scrollHeight;
+      const scale = Math.min(1, window.innerWidth / 390);
       inner.style.transformOrigin = "top left";
       inner.style.transform = `scale(${scale})`;
-      outer.style.height = naturalHeight * scale + "px";
-      runId += 1;
-      DEBUG_LOG(
-        {
-          runId,
-          naturalHeight,
-          scale,
-          outerHeight: naturalHeight * scale,
-          scrollHeightBefore,
-          innerWidth: window.innerWidth,
-        },
-        "H1-H2-H4"
-      );
-      // #endregion
+      (inner as HTMLElement).style.top = `${heroHeight}px`;
+      (inner as HTMLElement).style.left = "0";
+      outer.style.height = heroHeight + restNaturalHeight * scale + "px";
     }
 
     applyScale();
@@ -227,86 +216,86 @@ export default function BdFrontPage() {
 
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
-    <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
+      {/* Hero FORA do scale: fluxo normal, logo e preço nunca sobrepõem */}
+      <div ref={heroRef} className="w-full bg-black text-white" style={{ maxWidth: 390, margin: "0 auto" }}>
+        <section className="relative w-full overflow-hidden">
+          <div className="absolute inset-0">
+            <img src={IMG.heroBg} alt="" className="w-full h-full object-cover object-center" />
+            <div className="absolute inset-0 bg-black/30" />
+          </div>
+          <Inner className="relative flex flex-col items-center px-[19.5px] pb-10">
+
+            {/* 1. Desconto exclusivo somente nessa página */}
+            <div className="mt-[27px] flex flex-col items-center gap-2 w-full">
+              <div className="rotate-3">
+                <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] opacity-80 blur-[4px] w-[315px] h-[39px] px-5">
+                  <p className="text-[16px] font-normal text-black text-center tracking-[0.2px] leading-[17px]">O verdadeiro segredo das lésbicas.</p>
+                </div>
+              </div>
+              <div className="-rotate-2">
+                <div className="flex items-center justify-center gap-[6px] rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] w-[315px] h-[39px] px-5">
+                  <img src={IMG.lightning} alt="" className="size-[19.5px]" />
+                  <p className="text-[12px] font-bold text-black text-center tracking-[0.15px] leading-[13px]">DESCONTO EXCLUSIVO SOMENTE NESSA PÁGINA</p>
+                  <img src={IMG.lightning} alt="" className="size-[19.5px]" />
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Headline */}
+            <h1 className="mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
+              O segredo para{" "}
+              <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
+                dominar os múltiplos orgasmos
+              </span>
+              , agora com um SUPER DESCONTO{" "}
+              <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
+                para transformar sua vida sexual para sempre!
+              </span>
+            </h1>
+
+            {/* 3. BY INSTITUTO NEXXA */}
+            <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
+
+            {/* 4. Logo Mestre do Orgasmo */}
+            <div ref={logoBlockRef} className="mt-2 w-full flex flex-col items-center justify-center min-h-[200px]">
+              <img
+                src={IMG.heroBadge}
+                alt="Mestre do Orgasmo"
+                className="w-[200px] h-auto max-h-[160px] object-contain shrink-0"
+                onLoad={handleHeroBadgeLoad}
+              />
+            </div>
+
+            {/* 5. Preço — sempre abaixo da logo em fluxo normal */}
+            <div ref={priceBlockRef} className="relative mt-8 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
+              <div className="absolute inset-0">
+                <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40" />
+              </div>
+              <div className="relative flex flex-col items-center py-5">
+                <p className="text-[32px] font-normal text-[#6c6c6c] text-center leading-none line-through tracking-[0.2px]">DE R$297</p>
+                <p className="text-[64px] font-bold text-center leading-none tracking-[0.2px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent">POR R$127</p>
+              </div>
+            </div>
+
+            {/* Sub text */}
+            <p className="mt-4 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
+              Economize <strong>R$200</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
+            </p>
+
+            <div className="mt-8 w-full px-6">
+              <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
+            </div>
+            <div className="mt-5 flex justify-center">
+              <Selo />
+            </div>
+          </Inner>
+        </section>
+      </div>
+
+      {/* Resto da página: com scale para caber na tela */}
+      <div ref={innerRef} style={{ width: 390, position: "absolute", left: 0, top: 0 }}>
     <main className="w-[390px] bg-black text-white">
-
-      {/* ═══ HERO ═══ */}
-      <section className="relative w-full overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={IMG.heroBg} alt="" className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-        <Inner className="relative flex flex-col items-center px-[19.5px] pb-10">
-
-          {/* 1. Desconto exclusivo somente nessa página */}
-          <div className="mt-[27px] flex flex-col items-center gap-2 w-full">
-            <div className="rotate-3">
-              <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] opacity-80 blur-[4px] w-[315px] h-[39px] px-5">
-                <p className="text-[16px] font-normal text-black text-center tracking-[0.2px] leading-[17px]">O verdadeiro segredo das lésbicas.</p>
-              </div>
-            </div>
-            <div className="-rotate-2">
-              <div className="flex items-center justify-center gap-[6px] rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] w-[315px] h-[39px] px-5">
-                <img src={IMG.lightning} alt="" className="size-[19.5px]" />
-                <p className="text-[12px] font-bold text-black text-center tracking-[0.15px] leading-[13px]">DESCONTO EXCLUSIVO SOMENTE NESSA PÁGINA</p>
-                <img src={IMG.lightning} alt="" className="size-[19.5px]" />
-              </div>
-            </div>
-          </div>
-
-          {/* 2. Headline */}
-          <h1 className="mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
-            O segredo para{" "}
-            <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
-              dominar os múltiplos orgasmos
-            </span>
-            , agora com um SUPER DESCONTO{" "}
-            <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
-              para transformar sua vida sexual para sempre!
-            </span>
-          </h1>
-
-          {/* 3. BY INSTITUTO NEXXA */}
-          <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
-
-          {/* 4. Logo Mestre do Orgasmo (imagem) — altura fixa + z-index para nunca ficar atrás do preço */}
-          <div ref={logoBlockRef} className="relative z-10 mt-2 w-full flex flex-col items-center justify-center h-[260px] shrink-0">
-            <img
-              src={IMG.heroBadge}
-              alt="Mestre do Orgasmo"
-              className="w-[200px] h-auto max-h-[160px] object-contain shrink-0"
-              onLoad={handleHeroBadgeLoad}
-            />
-          </div>
-
-          {/* Espaçador fixo: garante que o preço comece sempre abaixo da logo (evita sobreposição por scale/reflow) */}
-          <div className="h-8 shrink-0" aria-hidden="true" />
-
-          {/* 5. Preço — sempre abaixo da logo; z-index menor para, se houver overlap, a logo fique por cima */}
-          <div ref={priceBlockRef} className="relative z-0 mt-4 w-[317px] flex flex-col items-center overflow-hidden rounded-[8px]">
-            <div className="absolute inset-0">
-              <img src={IMG.heroPriceBg} alt="" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/40" />
-            </div>
-            <div className="relative flex flex-col items-center py-5">
-              <p className="text-[32px] font-normal text-[#6c6c6c] text-center leading-none line-through tracking-[0.2px]">DE R$297</p>
-              <p className="text-[64px] font-bold text-center leading-none tracking-[0.2px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent">POR R$127</p>
-            </div>
-          </div>
-
-          {/* Sub text */}
-          <p className="mt-4 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
-            Economize <strong>R$200</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
-          </p>
-
-          <div className="mt-8 w-full px-6">
-            <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
-          </div>
-          <div className="mt-5 flex justify-center">
-            <Selo />
-          </div>
-        </Inner>
-      </section>
 
       {/* ═══ BENEFÍCIOS ═══ */}
       <section className="w-full pt-10 pb-10">
