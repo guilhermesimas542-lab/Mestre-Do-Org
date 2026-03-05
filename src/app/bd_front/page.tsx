@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 
 import { useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
@@ -121,6 +122,27 @@ export default function BdFrontPage() {
   }, []);
 
   useEffect(() => {
+    const s = document.createElement("script");
+    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/6882a91ad2ad5bff8e827827/v4/player.js";
+    s.async = true;
+    document.head.appendChild(s);
+
+    const delaySeconds = 1293;
+    const tryBind = () => {
+      const player = document.querySelector("vturb-smartplayer") as any;
+      if (player) {
+        player.addEventListener("player:ready", function () {
+          player.displayHiddenElements(delaySeconds, [".esconder"], { persist: true });
+        });
+      }
+    };
+    // tenta imediatamente e depois aguarda o player montar
+    tryBind();
+    const t = setTimeout(tryBind, 1000);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
     const inner = innerRef.current;
     const outer = outerRef.current;
     if (!inner || !outer) return;
@@ -148,6 +170,7 @@ export default function BdFrontPage() {
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
+    <style>{`.esconder { display: none; }`}</style>
     <main className="w-[390px] bg-black text-white">
 
       {/* ═══ HERO ═══ */}
@@ -174,8 +197,17 @@ export default function BdFrontPage() {
             </div>
           </div>
 
+          {/* ═══ VSL ═══ */}
+          <div className="mt-6 w-full">
+            {/* @ts-ignore */}
+            <vturb-smartplayer
+              id="vid-6882a91ad2ad5bff8e827827"
+              style={{ display: "block", margin: "0 auto", width: "100%" }}
+            />
+          </div>
+
           {/* 2. Headline */}
-          <h1 className="mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
+          <h1 className="esconder mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
             O segredo para{" "}
             <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
               dominar os múltiplos orgasmos
@@ -187,10 +219,10 @@ export default function BdFrontPage() {
           </h1>
 
           {/* 3. BY INSTITUTO NEXXA */}
-          <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
+          <p className="esconder mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
 
-          {/* 4. Imagem do produto — sem position, sem z-index, fluxo normal */}
-          <div className="w-full flex justify-center items-center pt-6 pb-2 px-4">
+          {/* 4. Imagem do produto */}
+          <div className="esconder w-full flex justify-center items-center pt-6 pb-2 px-4">
             <img
               src={IMG.heroBadge}
               alt="Mestre do Orgasmo"
@@ -199,28 +231,28 @@ export default function BdFrontPage() {
             />
           </div>
 
-          {/* 5. Preço — abaixo da imagem, sem position nem z-index */}
-          <div className="w-full text-center px-4 pb-4 pt-4">
+          {/* 5. Preço */}
+          <div className="esconder w-full text-center px-4 pb-4 pt-4">
             <p className="text-[32px] font-normal text-[#6c6c6c] text-center leading-none line-through tracking-[0.2px]">DE R$297</p>
             <p className="mt-2 text-[64px] font-bold text-center leading-none tracking-[0.2px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent">POR R$127</p>
           </div>
 
           {/* Sub text */}
-          <p className="mt-2 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
+          <p className="esconder mt-2 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
             Economize <strong>R$200</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
           </p>
 
-          <div className="mt-8 w-full px-6">
+          <div className="esconder mt-8 w-full px-6">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
-          <div className="mt-5 flex justify-center">
+          <div className="esconder mt-5 flex justify-center">
             <Selo />
           </div>
         </Inner>
       </section>
 
       {/* ═══ BENEFÍCIOS ═══ */}
-      <section className="w-full pt-10 pb-10">
+      <section className="esconder w-full pt-10 pb-10">
         <Inner className="flex flex-col items-center">
           <Tag icon={IMG.checkCircle}>BENEFÍCIOS</Tag>
           <h2 className="mt-4 text-center text-[24px] font-bold tracking-[0.7px] leading-[30.42px]">
@@ -236,7 +268,7 @@ export default function BdFrontPage() {
       </section>
 
       {/* ═══ PARA QUEM É ═══ */}
-      <section className="w-full pt-10 pb-10">
+      <section className="esconder w-full pt-10 pb-10">
         <Inner className="flex flex-col items-center px-[19.5px]">
           <Tag icon={IMG.checkCircle}>PARA QUEM É</Tag>
           <h2 className="mt-4 text-center text-[24px] font-bold tracking-[0.7px] leading-[30.42px]">
@@ -264,7 +296,7 @@ export default function BdFrontPage() {
       </section>
 
       {/* ═══ BÔNUS ═══ */}
-      <section className="w-full">
+      <section className="esconder w-full">
         <div className="relative w-full h-[79px] overflow-hidden">
           <img src={IMG.separator} alt="" className="absolute inset-0 w-full h-[300%] -top-[156%] object-cover" />
         </div>
@@ -292,7 +324,7 @@ export default function BdFrontPage() {
       </section>
 
       {/* ═══ PREÇO ═══ */}
-      <section className="w-full pt-10 pb-10 flex justify-center">
+      <section className="esconder w-full pt-10 pb-10 flex justify-center">
         <div className="w-[348px] rounded-[20px] border border-[#4d4d4d] bg-[#202020] px-[9px] pt-[9px] pb-[20px]">
           {pricingRows.map((row, i) => (
             <div key={i}>
@@ -324,7 +356,7 @@ export default function BdFrontPage() {
       </section>
 
       {/* ═══ CONTEÚDO / TIMELINE ═══ */}
-      <section className="w-full pt-10 pb-10 flex flex-col items-center">
+      <section className="esconder w-full pt-10 pb-10 flex flex-col items-center">
         <div className="text-center">
           <p className="text-[16px] font-bold text-white leading-[23.4px]">Dentro do treinamento</p>
           <p className="text-[24px] font-bold bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent leading-[23.4px]">Eu vou te mostrar</p>
@@ -354,7 +386,7 @@ export default function BdFrontPage() {
       </section>
 
       {/* ═══ INSTRUTORA ═══ */}
-      <section className="w-full pt-10 pb-10 flex justify-center">
+      <section className="esconder w-full pt-10 pb-10 flex justify-center">
         <div className="relative w-[348px]" style={{ height: 734 }}>
           <div className="absolute rounded-[10px] border border-[#4d4d4d] bg-[#171717]" style={{ left: 0, top: 194, width: 348, height: 540 }} />
           <div
@@ -380,7 +412,7 @@ export default function BdFrontPage() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
+      <footer className="esconder w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
         <div className="flex items-center justify-center">
           <img src={IMG.nexxa} alt="Instituto Nexxa" className="h-[11.1px] w-[54px] object-cover" />
           <span className="text-[11px] font-normal text-[rgba(255,255,255,0.8)] text-center tracking-[0.2px] leading-[18px]">{" "}| Todos os direitos reservados</span>
