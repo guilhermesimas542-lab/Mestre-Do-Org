@@ -148,7 +148,7 @@ export default function FrontPage() {
     s.async = true;
     document.head.appendChild(s);
 
-    const delaySeconds = 1293;
+    const delaySeconds = 1296;
     const player = document.querySelector("vturb-smartplayer") as any;
     if (player) {
       player.addEventListener("player:ready", function () {
@@ -191,13 +191,13 @@ export default function FrontPage() {
           {/* Heading */}
           <div className="mt-[56px] w-full text-center">
             <h1 className="text-[24px] font-bold text-white tracking-[0.7px] leading-[30.42px]">
-              O estímulo para fazer uma mulher CHEGAR LÁ sem muito esforço e{" "}
+              O estímulo para fazer a sua mulher CHEGAR LÁ sem muito esforço e{" "}
               <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
                 VICIAR em você entre 4 paredes…
               </span>
             </h1>
             <p className="mt-[9px] text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[25.16px]">
-              (não importa se você tem p*u pequeno ou pouca experiência na cama)
+              (não importa se você tem p*u pequeno ou não tem mais condicionamento fisico)
             </p>
           </div>
 
