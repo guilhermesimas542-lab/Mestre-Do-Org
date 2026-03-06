@@ -1,27 +1,29 @@
 "use client";
-/* LP Mestre do Orgasmo — Front2 (cópia independente do /front) */
+/* LP Mestre do Orgasmo — Backend Front 2 (cópia independente do /bd_front) */
 import type { ReactNode } from "react";
-import { useEffect, useRef } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
-const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8F6P";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8F6Q";
 
 const IMG = {
-  heroBg:       "https://www.figma.com/api/mcp/asset/42cf4038-1e96-4e2b-912a-7f31925e01ad",
-  benefitsList: "https://www.figma.com/api/mcp/asset/dfe492c3-5f75-4826-8951-e0c345d1f79e",
-  separator:    "https://www.figma.com/api/mcp/asset/9f16145d-b599-4474-b884-d14d861c02a9",
-  instrutora:   "https://www.figma.com/api/mcp/asset/1b9c8722-03fb-4f04-8a83-4afe2129ce31",
-  nexxa:        "https://www.figma.com/api/mcp/asset/a3ae3da8-5227-43c4-9afe-b54e36272a54",
-  camada5:      "https://www.figma.com/api/mcp/asset/25b5a8c2-ab6b-4f11-9ff7-eee25b7c8117",
-  selo:         "https://www.figma.com/api/mcp/asset/83e00b3f-a5e0-4327-bf5e-735e3a3361d4",
-  checkCircle:  "https://www.figma.com/api/mcp/asset/bf769c9d-13da-4fa6-823e-f5e99aa31264",
-  checkCircle2: "https://www.figma.com/api/mcp/asset/b4ad2555-9745-4d5c-8ca5-a43611ff67ed",
-  userCircle:   "https://www.figma.com/api/mcp/asset/6a694585-7c65-4fc0-a781-75e91a2aa4fb",
-  checkRed:     "https://www.figma.com/api/mcp/asset/d938f64b-5b0e-4f6d-9eb4-2a9d9099bda7",
-  checkRed2:    "https://www.figma.com/api/mcp/asset/ac1e213d-90c3-401e-9ccb-ebb14d9739e8",
-  ellipse:      "https://www.figma.com/api/mcp/asset/59e09d34-9506-479b-8c64-3880433fd3fd",
+  heroBg:       "https://www.figma.com/api/mcp/asset/ad5cad2d-167d-4aff-aae2-34661281e481",
+  lightning:    "https://www.figma.com/api/mcp/asset/a14fda7d-f13e-4b16-ba54-6ed3559fd0ad",
+  heroPriceBg:  "https://www.figma.com/api/mcp/asset/d2c15688-7121-4e5b-a36e-e6a5f1e4e542",
+  heroBadge:    "https://www.figma.com/api/mcp/asset/7cf918f2-3bc0-4590-8753-1297d6546b14",
+  benefitsList: "https://www.figma.com/api/mcp/asset/5643135d-c04a-4612-996b-6f29bd5b726b",
+  separator:    "https://www.figma.com/api/mcp/asset/ea79421a-3a63-42be-9fcf-76f5f1385b04",
+  instrutoraBg: "https://www.figma.com/api/mcp/asset/1e6e0687-eeec-47fd-88be-374c850ff230",
+  nexxa:        "https://www.figma.com/api/mcp/asset/f61b94cb-7d38-42cb-9f60-f6fed16a9dd2",
+  camada5:      "https://www.figma.com/api/mcp/asset/7101b070-0072-4d04-af65-7c4075e279cb",
+  checkCircle:  "https://www.figma.com/api/mcp/asset/5e35174f-92a3-45b8-8bf5-081c22396cd6",
+  checkCircle2: "https://www.figma.com/api/mcp/asset/55a0794f-33bc-49eb-a7ff-762f951b1b61",
+  userCircle:   "https://www.figma.com/api/mcp/asset/12de0fc6-c814-4f6a-b6d1-630784d8d823",
+  checkMark:    "https://www.figma.com/api/mcp/asset/a5fab113-7f92-4e0d-bf94-2b0b848d9e32",
+  ellipse:      "https://www.figma.com/api/mcp/asset/234e1acf-f840-4ccf-bcfa-e421cb5b677d",
 };
 
 const paraQuem = [
@@ -63,7 +65,6 @@ const conteudo = [
   "Como inovar na cama",
 ];
 
-/* Centraliza conteúdo em 390px, fundo da seção vai de borda a borda */
 function Inner({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-[390px] ${className}`}>{children}</div>;
 }
@@ -83,13 +84,13 @@ function CtaButton({ children, onClick }: { children: ReactNode; onClick?: () =>
 function Selo() {
   return (
     <div className="inline-flex items-center gap-[6px] rounded-[6px] border border-[#3a3a3a] bg-[#1a1a1a] px-4 py-[6px]">
-      <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
         <rect x="1" y="6" width="12" height="9" rx="2" stroke="#4d4d4d" strokeWidth="1.5"/>
         <path d="M4 6V4.5a3 3 0 0 1 6 0V6" stroke="#4d4d4d" strokeWidth="1.5" strokeLinecap="round"/>
         <circle cx="7" cy="10.5" r="1.5" fill="#4d4d4d"/>
       </svg>
       <span className="text-[11px] font-normal text-[#888] tracking-[0.5px]">Compra 100% Segura</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
         <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="#4d4d4d" strokeWidth="1.5" strokeLinejoin="round"/>
         <path d="M9 12l2 2 4-4" stroke="#4d4d4d" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
@@ -106,12 +107,15 @@ function Tag({ children, icon }: { children: ReactNode; icon?: string }) {
   );
 }
 
-export default function Front2Page() {
+export default function BdFront2Page() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const [logoImageLoaded, setLogoImageLoaded] = useState(false);
 
   const handleCheckout = () =>
-    void openCheckoutWithTracking(CHECKOUT_URL, "front2", 167);
+    void openCheckoutWithTracking(CHECKOUT_URL, "bd_front2", 127);
+
+  const handleHeroBadgeLoad = () => setLogoImageLoaded(true);
 
   useEffect(() => {
     initFacebookTracking();
@@ -140,87 +144,78 @@ export default function Front2Page() {
       window.removeEventListener("resize", applyScale);
       window.removeEventListener("load", applyScale);
     };
-  }, []);
-
-  useEffect(() => {
-    const s = document.createElement("script");
-    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69a9dab6a72ff196e7182a35/v4/player.js";
-    s.async = true;
-    document.head.appendChild(s);
-
-    const delaySeconds = 1296;
-    const player = document.querySelector("vturb-smartplayer") as any;
-    if (player) {
-      player.addEventListener("player:ready", function () {
-        player.displayHiddenElements(delaySeconds, [".esconder"], { persist: true });
-      });
-    }
-  }, []);
+  }, [logoImageLoaded]);
 
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
-    <style>{`.esconder { display: none; }`}</style>
     <main className="w-[390px] bg-black text-white">
 
       {/* ═══ HERO ═══ */}
       <section className="relative w-full overflow-hidden">
-        {/* Imagem de fundo cobre 100% da largura */}
         <div className="absolute inset-0">
           <img src={IMG.heroBg} alt="" className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
         <Inner className="relative flex flex-col items-center px-[19.5px] pb-10">
-          {/* Ribbons */}
-          <div className="mt-[27px] flex flex-col items-center w-full">
-            <div className="flex justify-center w-full h-[55.6px] mb-[-26.28px]">
-              <div className="rotate-3">
-                <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-t from-[#ff3838] to-[#f2295b] opacity-80 blur-[4px] w-[315px] h-[39.15px] px-5">
-                  <p className="text-[16.125px] font-normal text-white text-center tracking-[0.2px] leading-[17.16px]">O verdadeiro segredo das lésbicas.</p>
-                </div>
+
+          <div className="mt-[27px] flex flex-col items-center gap-2 w-full">
+            <div className="rotate-3">
+              <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] opacity-80 blur-[4px] w-[315px] h-[39px] px-5">
+                <p className="text-[16px] font-normal text-black text-center tracking-[0.2px] leading-[17px]">O verdadeiro segredo das lésbicas.</p>
               </div>
             </div>
-            <div className="flex justify-center w-full h-[50.12px] mb-[-26.28px]">
-              <div className="-rotate-2">
-                <div className="flex items-center justify-center rounded-[5px] bg-gradient-to-t from-[#ff3838] to-[#f2295b] w-[315px] h-[39.15px] px-5">
-                  <p className="text-[16.125px] font-normal text-white text-center tracking-[0.2px] leading-[17.16px]">O verdadeiro segredo das lésbicas.</p>
-                </div>
+            <div className="-rotate-2">
+              <div className="flex items-center justify-center gap-[6px] rounded-[5px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] w-[315px] h-[39px] px-5">
+                <img src={IMG.lightning} alt="" className="size-[19.5px]" />
+                <p className="text-[12px] font-bold text-black text-center tracking-[0.15px] leading-[13px]">DESCONTO EXCLUSIVO SOMENTE NESSA PÁGINA</p>
+                <img src={IMG.lightning} alt="" className="size-[19.5px]" />
               </div>
             </div>
-          </div>
-          {/* Heading */}
-          <div className="mt-[56px] w-full text-center">
-            <h1 className="text-[24px] font-bold text-white tracking-[0.7px] leading-[30.42px]">
-              O estímulo para fazer a sua mulher CHEGAR LÁ sem muito esforço e{" "}
-              <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
-                VICIAR em você entre 4 paredes…
-              </span>
-            </h1>
-            <p className="mt-[9px] text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[25.16px]">
-              (não importa se você tem p*u pequeno ou não tem mais condicionamento fisico)
-            </p>
           </div>
 
-          {/* ═══ VSL ═══ */}
-          <div className="mt-6 w-full">
-            {/* @ts-ignore */}
-            <vturb-smartplayer
-              id="vid-69a9dab6a72ff196e7182a35"
-              style={{ display: "block", margin: "0 auto", width: "100%" }}
+          <h1 className="mt-8 w-full max-w-[334px] text-[24px] font-bold text-white tracking-[0.7px] leading-[30px] text-center">
+            O segredo para{" "}
+            <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
+              dominar os múltiplos orgasmos
+            </span>
+            , agora com um SUPER DESCONTO{" "}
+            <span className="bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent">
+              para transformar sua vida sexual para sempre!
+            </span>
+          </h1>
+
+          <p className="mt-6 text-[11px] font-normal text-white tracking-[0.5px] uppercase">BY INSTITUTO NEXXA</p>
+
+          <div className="w-full flex justify-center items-center pt-6 pb-2 px-4">
+            <img
+              src={IMG.heroBadge}
+              alt="Mestre do Orgasmo"
+              className="w-full max-w-[300px] h-auto"
+              onLoad={handleHeroBadgeLoad}
             />
           </div>
 
-          <div className="esconder mt-8 w-full px-6">
+          <div className="w-full text-center px-4 pb-4 pt-4">
+            <p className="text-[32px] font-normal text-[#6c6c6c] text-center leading-none line-through tracking-[0.2px]">DE R$297</p>
+            <p className="mt-2 text-[64px] font-bold text-center leading-none tracking-[0.2px] bg-gradient-to-b from-[#38ff4c] to-[#bcf60d] bg-clip-text text-transparent">POR R$127</p>
+          </div>
+
+          <p className="mt-2 text-[16px] font-normal text-white text-center tracking-[0.1px] leading-[20px]">
+            Economize <strong>R$200</strong> agora e tenha <strong>acesso imediato ao Mestre do Orgasmo!</strong>
+          </p>
+
+          <div className="mt-8 w-full px-6">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
-          <div className="esconder mt-5 flex justify-center">
+          <div className="mt-5 flex justify-center">
             <Selo />
           </div>
         </Inner>
       </section>
 
       {/* ═══ BENEFÍCIOS ═══ */}
-      <section className="esconder w-full pt-10 pb-10">
+      <section className="w-full pt-10 pb-10">
         <Inner className="flex flex-col items-center">
           <Tag icon={IMG.checkCircle}>BENEFÍCIOS</Tag>
           <h2 className="mt-4 text-center text-[24px] font-bold tracking-[0.7px] leading-[30.42px]">
@@ -236,7 +231,7 @@ export default function Front2Page() {
       </section>
 
       {/* ═══ PARA QUEM É ═══ */}
-      <section className="esconder w-full pt-10 pb-10">
+      <section className="w-full pt-10 pb-10">
         <Inner className="flex flex-col items-center px-[19.5px]">
           <Tag icon={IMG.checkCircle}>PARA QUEM É</Tag>
           <h2 className="mt-4 text-center text-[24px] font-bold tracking-[0.7px] leading-[30.42px]">
@@ -263,8 +258,8 @@ export default function Front2Page() {
         </Inner>
       </section>
 
-      {/* ═══ BÔNUS — fundo #d7d7d7 cobre 100% ═══ */}
-      <section className="esconder w-full">
+      {/* ═══ BÔNUS ═══ */}
+      <section className="w-full">
         <div className="relative w-full h-[79px] overflow-hidden">
           <img src={IMG.separator} alt="" className="absolute inset-0 w-full h-[300%] -top-[156%] object-cover" />
         </div>
@@ -292,7 +287,7 @@ export default function Front2Page() {
       </section>
 
       {/* ═══ PREÇO ═══ */}
-      <section className="esconder w-full pt-10 pb-10 flex justify-center">
+      <section className="w-full pt-10 pb-10 flex justify-center">
         <div className="w-[348px] rounded-[20px] border border-[#4d4d4d] bg-[#202020] px-[9px] pt-[9px] pb-[20px]">
           {pricingRows.map((row, i) => (
             <div key={i}>
@@ -313,7 +308,7 @@ export default function Front2Page() {
               <span className="text-[11px] font-bold bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent tracking-[1px] leading-[11px]">POR APENAS</span>
             </div>
           </div>
-          <p className="mt-2 text-center text-[96px] font-bold text-white leading-none tracking-[0.2px]">R$ 167</p>
+          <p className="mt-2 text-center text-[96px] font-bold text-white leading-none tracking-[0.2px]">R$ 127</p>
           <div className="mt-6 px-4">
             <CtaButton onClick={handleCheckout}>LIBERAR ACESSO AO CURSO</CtaButton>
           </div>
@@ -324,7 +319,7 @@ export default function Front2Page() {
       </section>
 
       {/* ═══ CONTEÚDO / TIMELINE ═══ */}
-      <section className="esconder w-full pt-10 pb-10 flex flex-col items-center">
+      <section className="w-full pt-10 pb-10 flex flex-col items-center">
         <div className="text-center">
           <p className="text-[16px] font-bold text-white leading-[23.4px]">Dentro do treinamento</p>
           <p className="text-[24px] font-bold bg-gradient-to-t from-[#ff3838] to-[#f2295b] bg-clip-text text-transparent leading-[23.4px]">Eu vou te mostrar</p>
@@ -342,7 +337,7 @@ export default function Front2Page() {
                   <p className="text-[11px] font-normal text-white leading-[14px]">{item}</p>
                 </div>
                 <div className="absolute z-20 flex items-center justify-center" style={{ left: 64, top: y, width: 21, height: 21, background: "#181818", borderRadius: 2 }}>
-                  <img src={i === 0 ? IMG.checkRed : IMG.checkRed2} alt="" className="size-[11.375px]" />
+                  <img src={IMG.checkMark} alt="" className="size-[11.375px]" />
                 </div>
               </div>
             );
@@ -354,12 +349,18 @@ export default function Front2Page() {
       </section>
 
       {/* ═══ INSTRUTORA ═══ */}
-      <section className="esconder w-full pt-10 pb-10 flex justify-center">
+      <section className="w-full pt-10 pb-10 flex justify-center">
         <div className="relative w-[348px]" style={{ height: 734 }}>
           <div className="absolute rounded-[10px] border border-[#4d4d4d] bg-[#171717]" style={{ left: 0, top: 194, width: 348, height: 540 }} />
-          <div className="absolute rounded-[10px] overflow-hidden" style={{ left: 0, top: 0, width: 348, height: 472 }}>
-            <img src={IMG.instrutora} alt="Raje Belmont" className="size-full object-cover object-top" />
-          </div>
+          <div
+            className="absolute rounded-[10px] overflow-hidden"
+            style={{
+              left: 0, top: 0, width: 348, height: 472,
+              backgroundImage: "url('" + IMG.instrutoraBg + "')",
+              backgroundSize: "cover",
+              backgroundPosition: "top center",
+            }}
+          />
           <div className="absolute inline-flex items-center gap-[5px] rounded-[200px] border border-[#ff3838] bg-[rgba(242,41,91,0.25)] px-5 py-[5px]" style={{ left: 24, top: 496 }}>
             <img src={IMG.userCircle} alt="" className="size-[20px]" />
             <span className="text-[11px] font-normal text-white tracking-[1px] leading-[11px]">Raje Belmont</span>
@@ -374,7 +375,7 @@ export default function Front2Page() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="esconder w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
+      <footer className="w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
         <div className="flex items-center justify-center">
           <img src={IMG.nexxa} alt="Instituto Nexxa" className="h-[11.1px] w-[54px] object-cover" />
           <span className="text-[11px] font-normal text-[rgba(255,255,255,0.8)] text-center tracking-[0.2px] leading-[18px]">{" "}| Todos os direitos reservados</span>
@@ -383,20 +384,6 @@ export default function Front2Page() {
           Este conteúdo é voltado para educação e desenvolvimento pessoal, e não tem a intenção de diagnosticar ou tratar condições médicas. Para qualquer questão relacionada à saúde, recomendamos consultar um profissional especializado. As informações fornecidas são baseadas em técnicas e abordagens comprovadas, sem substituir orientações médicas. Toda história e personagens apresentados são fictícios e visam ilustrar situações de maneira geral, sem qualquer vínculo com casos reais.
         </p>
       </footer>
-      {/* Back redirect: ao clicar em "voltar", lead é enviado para a página com desconto (bd_front) */}
-      <Script id="back-redirect" strategy="afterInteractive">
-        {`
-          var urlBackRedirect = 'https://www.institutonexxa.com/bd_front2';
-          urlBackRedirect = urlBackRedirect.trim() + (urlBackRedirect.indexOf("?") > 0 ? '&' : '?') + document.location.search.replace('?', '').toString();
-          history.pushState({}, "", location.href);
-          history.pushState({}, "", location.href);
-          window.onpopstate = function () {
-            setTimeout(function () {
-              location.href = urlBackRedirect;
-            }, 1);
-          };
-        `}
-      </Script>
     </main>
     </div>
     </div>
