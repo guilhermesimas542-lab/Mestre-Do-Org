@@ -144,7 +144,7 @@ export default function FrontPage() {
 
   useEffect(() => {
     const s = document.createElement("script");
-    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/688436fb3d9c5796889c53be/v4/player.js";
+    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69a9dab6a72ff196e7182a35/v4/player.js";
     s.async = true;
     document.head.appendChild(s);
 
@@ -205,7 +205,7 @@ export default function FrontPage() {
           <div className="mt-6 w-full">
             {/* @ts-ignore */}
             <vturb-smartplayer
-              id="vid-688436fb3d9c5796889c53be"
+              id="vid-69a9dab6a72ff196e7182a35"
               style={{ display: "block", margin: "0 auto", width: "100%" }}
             />
           </div>
