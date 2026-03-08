@@ -37,6 +37,13 @@ export default function Obrigado2Page() {
         (window as unknown as { ttq: { track: (e: string, p: object) => void } }).ttq.track("Purchase", {
           value: 167.0,
           currency: "BRL",
+          contents: [
+            {
+              content_id: "curso_001",
+              content_type: "product",
+              content_name: "Mestre do Orgasmo",
+            },
+          ],
         });
       }
     }
