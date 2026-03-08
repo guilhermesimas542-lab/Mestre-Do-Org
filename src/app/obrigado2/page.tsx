@@ -2,7 +2,7 @@
 /* LP Mestre do Orgasmo — Página de Obrigado 2 (cópia independente do /obrigado) */
 import { useEffect, useRef } from "react";
 
-const MEMBERS_URL = "#membros";
+const MEMBERS_URL = "https://acesso.institutonexxa.com/";
 
 const IMG = {
   logoBanner: "https://www.figma.com/api/mcp/asset/4a9f9f0b-c84a-4319-a9e0-77535333eb3b",
