@@ -125,19 +125,11 @@ export default function Upsell2Page() {
     s.async = true;
     document.head.appendChild(s);
 
-    const delaySeconds = 95;
-    const player = document.querySelector("vturb-smartplayer") as any;
-    if (player) {
-      player.addEventListener("player:ready", function () {
-        player.displayHiddenElements(delaySeconds, [".esconder"], { persist: true });
-      });
-    }
   }, []);
 
   return (
     <div ref={outerRef} style={{ width: "100%", position: "relative" }}>
     <div ref={innerRef} style={{ width: 390, position: "absolute", top: 0, left: 0 }}>
-    <style>{`.esconder { display: none; }`}</style>
     <main className="w-[390px] bg-black text-white">
 
       {/* ═══ HERO ═══ */}
@@ -185,20 +177,20 @@ export default function Upsell2Page() {
           </div>
 
           {/* CTAs */}
-          <div className="esconder mt-8 flex flex-col items-center gap-[17px] w-full px-6">
+          <div className="mt-8 flex flex-col items-center gap-[17px] w-full px-6">
             <CtaGreen onClick={handleCheckout}>SIM, QUERO TER POTÊNCIA TOTAL</CtaGreen>
             <CtaDecline>NÃO, PREFIRO CONTINUAR SEM CONTROLE</CtaDecline>
           </div>
 
           {/* Selo */}
-          <div className="esconder mt-5 flex justify-center">
+          <div className="mt-5 flex justify-center">
             <Selo />
           </div>
         </div>
       </section>
 
       {/* ═══ PERGUNTAS ═══ */}
-      <section className="esconder w-full bg-black pt-10 pb-10">
+      <section className="w-full bg-black pt-10 pb-10">
         <div className="flex flex-col items-center px-[19.5px] max-w-[390px] mx-auto">
 
           <p className="text-[16px] font-normal text-white text-center tracking-[0.7px] leading-[16.4px]">
@@ -238,7 +230,7 @@ export default function Upsell2Page() {
       </section>
 
       {/* ═══ BENEFÍCIOS — bg #141414 ═══ */}
-      <section className="esconder w-full bg-[#141414] pt-10 pb-10">
+      <section className="w-full bg-[#141414] pt-10 pb-10">
         <div className="flex flex-col items-center px-[19.5px] max-w-[390px] mx-auto">
 
           <h2 className="text-[28px] font-bold text-white text-center tracking-[0.7px] leading-[28.4px]">
@@ -273,7 +265,7 @@ export default function Upsell2Page() {
       </section>
 
       {/* ═══ OFERTA — card branco ═══ */}
-      <section className="esconder w-full bg-black pt-10 pb-10 flex justify-center">
+      <section className="w-full bg-black pt-10 pb-10 flex justify-center">
         <div className="w-[346px] bg-white rounded-[26px] px-[23px] py-[25px] flex flex-col items-center text-black text-center">
 
           <div className="w-[300px] h-[2px] bg-[#e9e9e9] rounded-[1.5px] mb-5" />
@@ -308,7 +300,7 @@ export default function Upsell2Page() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="esconder w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
+      <footer className="w-full flex flex-col items-center justify-center border-t border-[rgba(255,255,255,0.13)] bg-[#181818] px-5 py-[10px] h-[94px]">
         <div className="flex items-center justify-center">
           <img src={IMG.nexxa} alt="Instituto Nexxa" className="h-[11.1px] w-[54px] object-cover" />
           <span className="text-[11px] font-normal text-[rgba(255,255,255,0.8)] text-center tracking-[0.2px] leading-[18px]">{" "}| Todos os direitos reservados</span>
