@@ -32,24 +32,12 @@ export default function Obrigado2Page() {
   }, []);
 
   useEffect(() => {
-    function firePurchase() {
-      if (typeof window !== "undefined" && (window as unknown as { ttq?: { track: (e: string, p: object) => void } }).ttq) {
-        (window as unknown as { ttq: { track: (e: string, p: object) => void } }).ttq.track("Purchase", {
-          value: 167.0,
-          currency: "BRL",
-          contents: [
-            {
-              content_id: "curso_001",
-              content_type: "product",
-              content_name: "Mestre do Orgasmo",
-            },
-          ],
-        });
-      }
+    if (typeof window !== "undefined" && (window as unknown as { ttq?: { track: (e: string, p: object) => void } }).ttq) {
+      (window as unknown as { ttq: { track: (e: string, p: object) => void } }).ttq.track("Purchase", {
+        value: 167.0,
+        currency: "BRL",
+      });
     }
-    firePurchase();
-    const t = setTimeout(firePurchase, 800);
-    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
