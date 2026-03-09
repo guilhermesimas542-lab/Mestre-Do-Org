@@ -55,33 +55,32 @@ export function collectAllUTMs(): UTMParams {
 }
 
 // ---------------------------------------------------------------------------
-// openCheckoutWithTracking — abre o checkout com UTMs + Meta IDs
+// openCheckoutWithTracking — abre o checkout com UTMs + Meta IDs (quando sendToMeta)
 // ---------------------------------------------------------------------------
 export async function openCheckoutWithTracking(
   checkoutUrl: string,
   plan: string,
-  value: number
+  value: number,
+  sendToMeta: boolean = true
 ): Promise<void> {
-  // 1. Coleta UTMs de todas as fontes
   const utms = collectAllUTMs();
 
-  // 2. Dispara tracking em background (não espera — redirect segue na hora)
-  trackInitiateCheckout(plan, value).catch(() => {});
+  if (sendToMeta) {
+    trackInitiateCheckout(plan, value).catch(() => {});
+  }
 
-  // 3. Monta a URL final com UTMs e IDs Meta como query params
   const url = new URL(checkoutUrl);
 
   for (const [key, val] of Object.entries(utms)) {
     if (val) url.searchParams.set(key, val);
   }
 
-  const fbp = getCookie("_fbp");
-  const fbc = getCookie("_fbc") || localStorage.getItem("_fbc") || "";
-  if (fbp) url.searchParams.set("metadata_fbp", fbp);
-  if (fbc) url.searchParams.set("metadata_fbc", fbc);
+  if (sendToMeta) {
+    const fbp = getCookie("_fbp");
+    const fbc = getCookie("_fbc") || localStorage.getItem("_fbc") || "";
+    if (fbp) url.searchParams.set("metadata_fbp", fbp);
+    if (fbc) url.searchParams.set("metadata_fbc", fbc);
+  }
 
-  const finalUrl = url.toString();
-
-  // 4. Redirect na mesma aba (fluxo natural do lead, sem popup)
-  window.location.href = finalUrl;
+  window.location.href = url.toString();
 }

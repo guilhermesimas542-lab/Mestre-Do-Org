@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
-import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
 const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8ME4";
@@ -122,14 +121,12 @@ export default function BdFront2Page() {
         currency: "BRL",
       });
     }
-    void openCheckoutWithTracking(CHECKOUT_URL, "bd_front2", 127);
+    void openCheckoutWithTracking(CHECKOUT_URL, "bd_front2", 127, false);
   };
 
   const handleHeroBadgeLoad = () => setLogoImageLoaded(true);
 
   useEffect(() => {
-    initFacebookTracking();
-
     if (!document.getElementById("tiktok-pixel")) {
       const s = document.createElement("script");
       s.id = "tiktok-pixel";

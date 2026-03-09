@@ -20,6 +20,7 @@ function hashPII(value: string): string {
 
 interface MetaCapiBody {
   eventName: "PageView" | "InitiateCheckout" | "Purchase";
+  event_id?: string;
   eventData?: {
     value?: number;
     currency?: string;
@@ -41,7 +42,6 @@ interface MetaCapiBody {
     db?: string;
     ge?: string;
   };
-  // Formato alternativo enviado pelo front (fb-pixel.ts)
   fbp?: string;
   fbc?: string;
   value?: number;
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
         {
           event_name: eventName,
           event_time: Math.floor(Date.now() / 1000),
-          event_id: crypto.randomUUID(),
+          event_id: body.event_id ?? body.eventData?.order_id ?? crypto.randomUUID(),
           action_source: "website",
           user_data: user_data,
           custom_data: Object.keys(custom_data).length > 0 ? custom_data : undefined,

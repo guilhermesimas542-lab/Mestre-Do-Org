@@ -2,7 +2,6 @@
 /* LP Mestre do Orgasmo — Downsell 2 / Mestre da Potência (cópia independente do /downsell) */
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
-import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
 const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8ME6?upsell=true";
@@ -111,11 +110,9 @@ export default function Downsell2Page() {
   const innerRef = useRef<HTMLDivElement>(null);
 
   const handleCheckout = () =>
-    void openCheckoutWithTracking(CHECKOUT_URL, "downsell2", 97);
+    void openCheckoutWithTracking(CHECKOUT_URL, "downsell2", 97, false);
 
   useEffect(() => {
-    initFacebookTracking();
-
     if (!document.getElementById("tiktok-pixel")) {
       const s = document.createElement("script");
       s.id = "tiktok-pixel";

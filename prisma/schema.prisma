@@ -47,7 +47,7 @@ model Payment {
   subscriptionType String
   amount           Float
   utmParams        Json?
-  gatewayId        String?  // ID da transação no gateway
+  gatewayId        String?  @unique
   createdAt        DateTime @default(now())
 
   userId String

@@ -116,17 +116,25 @@ function validateWebhook(
 // ---------------------------------------------------------------------------
 const productPlanMap: Record<
   string,
-  { plan: string; duration: number; value: number }
+  { plan: string; duration: number; value: number; sendPurchaseToMeta: boolean }
 > = {
-  PPU38CQ8F6P: { plan: "front", duration: 365, value: 167 },
-  PPU38CQ8F6Q: { plan: "bd_front", duration: 365, value: 127 },
-  PPU38CQ85K0: { plan: "upsell", duration: 365, value: 156 },
+  // Funil Meta (slugs sem "2") — apenas front e bd_front enviam Purchase ao Meta
+  PPU38CQ8F6P: { plan: "front",    duration: 365, value: 167, sendPurchaseToMeta: true },
+  PPU38CQ8F6Q: { plan: "bd_front", duration: 365, value: 127, sendPurchaseToMeta: true },
+  PPU38CQ85K0: { plan: "upsell",   duration: 365, value: 156, sendPurchaseToMeta: false },
+  PPU38CQ8H9K: { plan: "upsell",   duration: 365, value: 156, sendPurchaseToMeta: false },
+  PPU38CQ8H9J: { plan: "downsell", duration: 365, value: 97,  sendPurchaseToMeta: false },
+  // Funil TikTok (slugs com "2") — nenhum envia ao Meta
+  PPU38CQ8ME3: { plan: "front2",    duration: 365, value: 167, sendPurchaseToMeta: false },
+  PPU38CQ8ME4: { plan: "bd_front2", duration: 365, value: 127, sendPurchaseToMeta: false },
+  PPU38CQ8ME5: { plan: "upsell2",   duration: 365, value: 156, sendPurchaseToMeta: false },
+  PPU38CQ8ME6: { plan: "downsell2", duration: 365, value: 97,  sendPurchaseToMeta: false },
 };
 
 function mapCodeToPlan(
   productCode: string,
   planCode: string
-): { plan: string; duration: number; value: number } | null {
+): { plan: string; duration: number; value: number; sendPurchaseToMeta: boolean } | null {
   const p = (productCode ?? "").trim();
   const pl = (planCode ?? "").trim();
   return productPlanMap[p] ?? productPlanMap[pl] ?? null;
@@ -292,40 +300,43 @@ export async function POST(req: NextRequest) {
     const zipCode = (customer.zip_code ?? "").trim();
     const birthday = (customer.birthday ?? "").trim();
 
-    const { fbp, fbc } = await recoverMetaIds(email, metadata);
-
     const baseUrl =
       process.env.NEXTAUTH_URL ??
       (process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
         : "http://localhost:3000");
 
-    await fetch(`${baseUrl}/api/meta-capi`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        eventName: "Purchase",
-        eventData: {
-          value,
-          currency: "BRL",
-          content_name: plan,
-          order_id: gatewayId,
-        },
-        userData: {
-          email: email.toLowerCase(),
-          fbp,
-          fbc,
-          phone: phone || undefined,
-          fn: fn || undefined,
-          ln: ln || undefined,
-          city: city || undefined,
-          state: state || undefined,
-          country: country || undefined,
-          zp: zipCode || undefined,
-          db: birthday || undefined,
-        },
-      }),
-    });
+    if (mapped?.sendPurchaseToMeta === true) {
+      const { fbp, fbc } = await recoverMetaIds(email, metadata);
+
+      await fetch(`${baseUrl}/api/meta-capi`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventName: "Purchase",
+          event_id: gatewayId,
+          eventData: {
+            value,
+            currency: "BRL",
+            content_name: plan,
+            order_id: gatewayId,
+          },
+          userData: {
+            email: email.toLowerCase(),
+            fbp,
+            fbc,
+            phone: phone || undefined,
+            fn: fn || undefined,
+            ln: ln || undefined,
+            city: city || undefined,
+            state: state || undefined,
+            country: country || undefined,
+            zp: zipCode || undefined,
+            db: birthday || undefined,
+          },
+        }),
+      });
+    }
 
     const expiresAt = new Date(
       Date.now() + duration * 24 * 60 * 60 * 1000
