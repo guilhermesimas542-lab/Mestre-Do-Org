@@ -120,7 +120,9 @@ const productPlanMap: Record<
 > = {
   // Funil Meta (slugs sem "2") — apenas front e bd_front enviam Purchase ao Meta
   PPU38CQ8F6P: { plan: "front",    duration: 365, value: 167, sendPurchaseToMeta: true },
+  PPU38CQ8N29: { plan: "front",    duration: 365, value: 167, sendPurchaseToMeta: true },
   PPU38CQ8F6Q: { plan: "bd_front", duration: 365, value: 127, sendPurchaseToMeta: true },
+  PPU38CQ8N2A: { plan: "bd_front", duration: 365, value: 127, sendPurchaseToMeta: true },
   PPU38CQ85K0: { plan: "upsell",   duration: 365, value: 156, sendPurchaseToMeta: false },
   PPU38CQ8H9K: { plan: "upsell",   duration: 365, value: 156, sendPurchaseToMeta: false },
   PPU38CQ8H9J: { plan: "downsell", duration: 365, value: 97,  sendPurchaseToMeta: false },

@@ -7,7 +7,7 @@ import Script from "next/script";
 import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
-const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8F6Q";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8N2A";
 
 const IMG = {
   heroBg:       "https://www.figma.com/api/mcp/asset/ad5cad2d-167d-4aff-aae2-34661281e481",
