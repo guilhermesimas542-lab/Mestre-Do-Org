@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { initFacebookTracking } from "@/lib/fb-pixel";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
-const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8H9J?upsell=true";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8ME6?upsell=true";
 const DECLINE_URL = "https://www.institutonexxa.com/obrigado2";
 
 const IMG = {
