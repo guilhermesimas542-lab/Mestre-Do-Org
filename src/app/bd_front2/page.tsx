@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { openCheckoutWithTracking } from "@/lib/checkout-helper";
 
-const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8ME4";
+const CHECKOUT_URL = "https://go.perfectpay.com.br/PPU38CQ8NI9";
 
 const IMG = {
   heroBg:       "https://www.figma.com/api/mcp/asset/ad5cad2d-167d-4aff-aae2-34661281e481",

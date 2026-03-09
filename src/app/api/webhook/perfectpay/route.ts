@@ -128,7 +128,9 @@ const productPlanMap: Record<
   PPU38CQ8H9J: { plan: "downsell", duration: 365, value: 97,  sendPurchaseToMeta: false },
   // Funil TikTok (slugs com "2") — nenhum envia ao Meta
   PPU38CQ8ME3: { plan: "front2",    duration: 365, value: 167, sendPurchaseToMeta: false },
+  PPU38CQ8NI8: { plan: "front2",    duration: 365, value: 167, sendPurchaseToMeta: false },
   PPU38CQ8ME4: { plan: "bd_front2", duration: 365, value: 127, sendPurchaseToMeta: false },
+  PPU38CQ8NI9: { plan: "bd_front2", duration: 365, value: 127, sendPurchaseToMeta: false },
   PPU38CQ8ME5: { plan: "upsell2",   duration: 365, value: 156, sendPurchaseToMeta: false },
   PPU38CQ8ME6: { plan: "downsell2", duration: 365, value: 97,  sendPurchaseToMeta: false },
 };
