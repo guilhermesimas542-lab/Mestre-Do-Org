@@ -35,14 +35,6 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
 
-        {/* UTMify — Pixel */}
-        <Script id="utmify-pixel-id" strategy="afterInteractive">
-          {`window.pixelId = "69a84b02c3d164212b1d527e";`}
-        </Script>
-        <Script
-          src="https://cdn.utmify.com.br/scripts/pixel/pixel.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );
