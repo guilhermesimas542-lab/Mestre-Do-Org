@@ -148,7 +148,7 @@ export default function FrontPage() {
     s.async = true;
     document.head.appendChild(s);
 
-    const delaySeconds = 1288;
+    const delaySeconds = 1238;
     const player = document.querySelector("vturb-smartplayer") as any;
     if (player) {
       player.addEventListener("player:ready", function () {
