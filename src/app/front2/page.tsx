@@ -166,11 +166,11 @@ export default function Front2Page() {
 
   useEffect(() => {
     const s = document.createElement("script");
-    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69a9dab6a72ff196e7182a35/v4/player.js";
+    s.src = "https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69b0d8e78b255839d12a8994/v4/player.js";
     s.async = true;
     document.head.appendChild(s);
 
-    const delaySeconds = 1288;
+    const delaySeconds = 1286;
     const player = document.querySelector("vturb-smartplayer") as any;
     if (player) {
       player.addEventListener("player:ready", function () {
@@ -227,7 +227,7 @@ export default function Front2Page() {
           <div className="mt-6 w-full">
             {/* @ts-ignore */}
             <vturb-smartplayer
-              id="vid-69a9dab6a72ff196e7182a35"
+              id="vid-69b0d8e78b255839d12a8994"
               style={{ display: "block", margin: "0 auto", width: "100%" }}
             />
           </div>
